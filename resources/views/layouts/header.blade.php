@@ -215,7 +215,7 @@
             </li>
           @endif
           
-          <li class="nav-item mt-5 border-bottom border-top border-secondary">
+          <li class="nav-item mt-5 border-bottom border-top border-danger">
             <a href="{{ url('logout') }}" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>

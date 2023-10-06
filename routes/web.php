@@ -54,7 +54,7 @@ Route::middleware(['admin'])->group(function () {
 
      // Subject url
      Route::get('admin/subject/list', [SubjectController::class, 'list']);
-     Route::post('admin/subject/add-class', [SubjectController::class, 'addNewSubject']);
+     Route::post('admin/subject/add-subject', [SubjectController::class, 'addNewSubject']);
      Route::get('admin/subject/edit/{id}', [SubjectController::class, 'edit']);
      Route::post('admin/subject/edit', [SubjectController::class, 'update']);
      Route::get('admin/subject/delete/{id}', [SubjectController::class, 'warnDelete']);

@@ -65,18 +65,21 @@ class User extends Authenticatable
         $result = User::where('user_type','=','Admin');
                     if(!empty(Request::get('search'))){
                         $result=$result->where('first_name','like','%'.Request::get('search').'%')
+                                        ->where('is_deleted','=',false)
                                         ->orWhere(function($query){
-                                            $query->where('last_name','like','%'.Request::get('search').'%');
+                                            $query->where('last_name','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('email','like','%'.Request::get('search').'%');
+                                            $query->where('email','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('id','=',Request::get('search'));
+                                            $query->where('id','=',Request::get('search'))
+                                            ->where('is_deleted','=',false);
                                         });
                     }
         $result=$result->where('user_type','=','Admin')
-                    ->where('is_deleted','=',false)
                     ->where('email','!=',Auth::user()->email)
                     ->orderBy('id','desc')
                     ->paginate(10);

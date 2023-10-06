@@ -34,19 +34,21 @@ class SchoolClass extends Model
 
                             if(!empty(Request::get('search'))){
                                 $result=$result->where('school_classes.name','like','%'.Request::get('search').'%')
+                                                ->where('school_classes.is_deleted','=',false)
                                                 ->orWhere(function($query){
-                                                    $query->where('school_classes.id','=',Request::get('search'));
+                                                    $query->where('school_classes.id','=',Request::get('search'))
+                                                    ->where('school_classes.is_deleted','=',false);
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('school_classes.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null);
+                                                    $query->where('school_classes.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null)
+                                                    ->where('school_classes.is_deleted','=',false);
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('school_classes.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null);
+                                                    $query->where('school_classes.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null)
+                                                    ->where('school_classes.is_deleted','=',false);
                                                 });
                             }
-                            $result=$result->where('school_classes.is_deleted','=',false)
-                            ->orderBy('school_classes.id','desc')
-                            ->paginate(10);
+                        $result=$result->orderBy('school_classes.id','desc')->paginate(10);
         
         return $result;   
     }
