@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('created_by')->index();
             $table->boolean('status')->default(true);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
             
             $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();

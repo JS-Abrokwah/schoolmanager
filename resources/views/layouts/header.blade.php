@@ -6,7 +6,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ url('#') }}" class="nav-link h5">St. Fidelis Senior High Technical School</a>
+        <a href="{{ url('#') }}" class="nav-link h5">{{ Auth::user()->school->name.', '.Auth::user()->school->town}}</a>
       </li>
     </ul>
 

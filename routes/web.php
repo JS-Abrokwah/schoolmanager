@@ -21,6 +21,8 @@ use App\Http\Controllers\SubjectController;
 */
 
 Route::get('', [AuthController::class, 'welcome']);
+Route::get('register-school',[AuthController::class, 'newSchool']);
+Route::post('create-school',[AuthController::class, 'createSchool']);
 Route::get('login', [AuthController::class, 'login']);
 Route::post('login',[AuthController::class, 'authLogin']);
 Route::get('logout', [AuthController::class, 'logout']);
@@ -28,7 +30,6 @@ Route::get('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('forgot-password',[AuthController::class, 'sendResetLink']);
 Route::get('password-reset/{token}',[AuthController::class, 'resetPassword']);
 Route::post('reset-password/{token}',[AuthController::class, 'resetUserPassword']);
-
 
 
 

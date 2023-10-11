@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Subject;
 use Request;
 use Auth;
 
@@ -25,6 +26,10 @@ class SchoolClass extends Model
 
     public function admin(){
         return $this->belongsTo(User::class,'id');
+    }
+
+    public function subjects(){
+        return $this->belongsToMany(Subject::class,'school_classes_subjects', 'school_class_id','subject_id');
     }
     
     static public function classList(){
