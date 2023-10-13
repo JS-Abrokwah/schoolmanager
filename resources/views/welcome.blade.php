@@ -51,7 +51,7 @@
       <a href="{{ url('login') }}" class="btn btn-sm btn-success px-3 rounded-pill elevation-3">Sign In</a>
     </div>
     <div class="col-sm-6 my-1">
-      <a href="{{ url('register') }}" class="btn btn-sm btn-dark px-3 rounded-pill elevation-3">Sign Up</a>
+      <a href="{{ url('register-school') }}" class="btn btn-sm btn-dark px-3 rounded-pill elevation-3">Register School</a>
     </div>
   </div>
   <div class="col-md-4"></div>

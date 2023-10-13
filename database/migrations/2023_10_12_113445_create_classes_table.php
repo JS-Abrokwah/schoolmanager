@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('classes', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('created_by');
+            $table->unsignedBigInteger('created_by')->index();
             $table->boolean('status')->default(true);
-            $table->boolean('is_delete')->default(false);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
+            
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('classes');
     }
 };

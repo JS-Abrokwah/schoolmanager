@@ -65,5 +65,9 @@ class SubjectController extends Controller
             return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
         }
     }
+
+    public function subjectDetail($id) {
+        dd($id);
+    }
     
 }

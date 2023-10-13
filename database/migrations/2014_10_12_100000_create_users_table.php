@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('user_type');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('school_id');
+            $table->boolean('is_deleted')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
         });
     }
 

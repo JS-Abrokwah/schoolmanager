@@ -48,6 +48,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function school(){
+        return $this->belongsTo(School::class);
+    }
+
     public function schoolClasses(){
         return $this->hasMany(SchoolClass::class,'created_by');
     }
@@ -79,7 +83,7 @@ class User extends Authenticatable
                                             ->where('is_deleted','=',false);
                                         });
                     }
-        $result=$result->where('user_type','=','Admin')
+        $result=$result->where('user_type','=','Admin')->where('school_id','=', Auth::user()->school->id)
                     ->where('email','!=',Auth::user()->email)
                     ->orderBy('id','desc')
                     ->paginate(10);

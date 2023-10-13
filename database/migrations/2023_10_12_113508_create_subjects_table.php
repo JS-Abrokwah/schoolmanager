@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('school_classes', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('created_by')->index();
+            $table->string('type');
+            $table->string('created_by');
             $table->boolean('status')->default(true);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
-            
-            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
         });
-
     }
 
     /**
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('school_classes');
+        Schema::dropIfExists('subjects');
     }
 };

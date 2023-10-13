@@ -12,7 +12,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">{{ Auth::user()->user_type }}</a></li>
+              <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">{{ Auth::user()->user_type }}</a></li>
               <li class="breadcrumb-item active">{{ !empty($page_title)?$page_title:'' }}</li>
             </ol>
           </div>
@@ -68,6 +68,7 @@
                           <td>{{ $class->creator_first_name.' '.$class->creator_last_name }}</td>
                           <td>{{ date('d-m-Y H:i A', strtotime($class->created_at)) }}</td>
                           <td>
+                            <a href="{{ url('admin/class/view_class/'.$class->id) }}" class="btn btn-sm btn-info m-1 px-3"><i class="fas fa-eye"></i></a>
                             <a href="{{ url('admin/class/edit/'.$class->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
                             <a href="{{ url('admin/class/delete/'.$class->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
                           </td>

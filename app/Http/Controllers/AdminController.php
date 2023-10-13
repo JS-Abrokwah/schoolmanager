@@ -27,6 +27,7 @@ class AdminController extends Controller
 
         $foundUser=User::where('email','=',$request->email)->where('is_deleted','=',false)->first();
         if($this->isOnline()){
+            $school = Auth::user()->school;
             $user =  new User;
             $user->first_name = trim($request->first_name);
             $user->last_name = trim($request->last_name);
@@ -34,7 +35,7 @@ class AdminController extends Controller
             $user->user_type = "Admin";
             $user->password = Hash::make(Str::random(8));
             $user->remember_token = Str::random(30); 
-            $user->save();
+            $school->users()->save($user);
             Mail::to($user->email)->send(new NewAccountMail($user));
             return redirect()->back()->with('success',"New Admin successfully created");
         }else{
