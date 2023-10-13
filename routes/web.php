@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SchoolClassController;
+use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\SubjectController;
 
 
@@ -46,13 +46,17 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/admin/delete', [AdminController::class, 'destroy']);
 
     // Class url
-    Route::get('admin/class/list', [SchoolClassController::class, 'list']);
-    Route::post('admin/class/add-class', [SchoolClassController::class, 'addNewClass']);
-    Route::get('admin/class/edit/{id}', [SchoolClassController::class, 'edit']);
-    Route::post('admin/class/edit', [SchoolClassController::class, 'update']);
-    Route::get('admin/class/delete/{id}', [SchoolClassController::class, 'warnDelete']);
-    Route::post('admin/class/delete', [SchoolClassController::class, 'destroy']);
-
+    Route::get('admin/class/list', [ClassesController::class, 'list']);
+    Route::post('admin/class/add-class', [ClassesController::class, 'addNewClass']);
+    Route::get('admin/class/edit/{id}', [ClassesController::class, 'edit']);
+    Route::post('admin/class/edit', [ClassesController::class, 'update']);
+    Route::get('admin/class/delete/{id}', [ClassesController::class, 'warnDelete']);
+    Route::post('admin/class/delete', [ClassesController::class, 'destroy']);
+    Route::get('admin/class/view_class/{id}', [ClassesController::class, 'classDetail']);
+    Route::post('admin/class/add_subject', [ClassesController::class, 'attachSubject']);
+    Route::get('admin/class/del_subject/{class_id}/{subject_id}', [ClassesController::class, 'detachSubject']);
+    Route::get('admin/class/view_subject/{id}', [SubjectController::class, 'subjectDetail']);
+    
      // Subject url
      Route::get('admin/subject/list', [SubjectController::class, 'list']);
      Route::post('admin/subject/add-subject', [SubjectController::class, 'addNewSubject']);

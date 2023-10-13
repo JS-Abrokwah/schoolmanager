@@ -12,7 +12,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">{{ Auth::user()->user_type }}</a></li>
+              <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">{{ Auth::user()->user_type }}</a></li>
               <li class="breadcrumb-item active">{{ !empty($page_title)?$page_title:'' }}</li>
             </ol>
           </div>

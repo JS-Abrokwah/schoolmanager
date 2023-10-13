@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\SchoolClass;
+use App\Models\Classes;
 use Request;
 use Auth;
 
@@ -24,8 +24,11 @@ class Subject extends Model
         'is_delete'=>'boolean'
     ];
 
-    public function schoolClasses(){
-        return $this->belongsToMany(SchoolClass::class,'school_classes_subjects','subject_id','school_class_id');
+    public function classes() {
+        return $this->belongsToMany(Classes::class,'classes_subject','subject_id','classes_id')
+        ->using(ClassesSubject::class)
+        ->withPivot('active')
+        ->withTimestamps();
     }
 
     static public function subjectList(){
@@ -57,5 +60,13 @@ class Subject extends Model
                         $result=$result->orderBy('subjects.id','desc')->paginate(10);
         
         return $result;   
+    }
+
+    static public function subjectsNotForClass($id){
+        $result = Subject::whereDoesntHave('classes', function ($query) use($id){
+            $query->where('classes_subject.classes_id','=',$id);
+        })->where('subjects.is_delete',false)->get();
+
+        return $result;
     }
 }
