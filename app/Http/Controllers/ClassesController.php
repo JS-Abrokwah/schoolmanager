@@ -76,8 +76,10 @@ class ClassesController extends Controller
 
     public function attachSubject(Request $request){
         $class=Classes::find($request->class_id);
-        $subject=Subject::find($request->subject_id);
-        $class->subjects()->attach($subject->id);
+        // $subject=Subject::find($request->subject_id);
+        if(!empty($request->subject_id)){
+            $class->subjects()->attach($request->subject_id);
+        }
         $page_title = $class->name;
         $class_id = $class->id;
         $subjects = Subject::subjectsNotForClass($class->id);

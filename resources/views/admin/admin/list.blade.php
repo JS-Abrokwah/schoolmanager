@@ -42,34 +42,6 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            {{-- <div class="card">
-              <div class="card-header py-1 bg-secondary">
-                <p class="h5">Search Admin</p>
-              </div>
-              <form action="" method="get" class="form-horizontal mx-3" id="newAdmin">
-                  <div class="form-row">
-                    <div class="col-sm-3 form-group">
-                      <label for="first_name" class="form-label">First Name</label>
-                      <input type="text" class="form-control form-control-sm" name="first_name" value="{{ Request::get('first_name') }}" placeholder="First Name">
-                    </div>
-
-                    <div class="col-sm-3 form-group">
-                      <label for="last_name" class="form-label">Last Name</label>
-                      <input type="text" class="form-control form-control-sm" name="last_name" value="{{ Request::get('last_name') }}" placeholder="Last Name">
-                    </div>
-
-                    <div class="col-sm-3 form-group">
-                      <label for="email" class="form-label">Email</label>
-                      <input type="text" class="form-control form-control-sm" name="email" value="{{ Request::get('email') }}" placeholder="New Admin's email">
-                    </div>
-
-                    <div class="col-sm-3 mt-4">
-                      <button type="submit" class="btn btn-sm btn-info px-5"><i class="fas fa-search px-1"></i> Search</button>
-                      <a href="{{ url('admin/admin/list') }}" class="btn btn-sm btn-success px-3"><i class="fas fa-trash px-1"></i>Reset Search</a>
-                    </div>
-                  </div>
-              </form>
-            </div> --}}
             <div class="card">
               <div class="card-header bg-info">
                 <p class="h5 font-weight-bold">Admin List</p>

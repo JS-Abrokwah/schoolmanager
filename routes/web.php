@@ -30,6 +30,7 @@ Route::get('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('forgot-password',[AuthController::class, 'sendResetLink']);
 Route::get('password-reset/{token}',[AuthController::class, 'resetPassword']);
 Route::post('reset-password/{token}',[AuthController::class, 'resetUserPassword']);
+Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
 

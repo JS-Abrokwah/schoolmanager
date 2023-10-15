@@ -180,6 +180,27 @@ class AuthController extends Controller
         }
     }
 
+    public function changePassword(Request $request){
+        // dd(Hash::make('12345678'));
+        $request->validate([
+            'reset_old_password'=>'required',
+            'reset_new_password'=>'required',
+            'reset_confirm_password'=>'required'
+        ]);
+        if($request->reset_new_password === $request->reset_confirm_password){
+            $user = Auth::user();
+            if(Hash::check($request->reset_old_password,$user->password)){
+                $user->password = $request->reset_new_password;
+                $user->save();
+                return redirect()->back()->with('reset_success','Password successfully reset'); 
+            }else{
+                return redirect()->back()->with('reset_error','Invalid Old Password'); 
+            }
+         }else{
+             return redirect()->back()->with('reset_not_match', 'Password does not match');
+         }
+    }
+
     public function logout(){
         Auth::logout();
         return redirect(url(''));

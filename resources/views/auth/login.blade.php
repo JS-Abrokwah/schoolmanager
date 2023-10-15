@@ -51,8 +51,8 @@
         <div class="row mt-3">
           <div class="col-8">
             <div class="icheck-primary">
-              <input type="checkbox" name="remember" id="remember" class="form-check-input">
               <label for="remember" class="form-check-label">
+                <input type="checkbox" name="remember" id="remember" class="form-check-input">
                 Remember Me
               </label>
             </div>
