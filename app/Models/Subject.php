@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Classes;
+use App\Models\Teacher;
 use Request;
 use Auth;
 
@@ -27,6 +28,14 @@ class Subject extends Model
     public function classes() {
         return $this->belongsToMany(Classes::class,'classes_subject','subject_id','classes_id')
         ->using(ClassesSubject::class)
+        ->withPivot('active')
+        ->withTimestamps();
+    }
+
+    public function teachers() {
+        //Assigned as a subject teacher
+        return $this->belongsToMany(Teacher::class,'subject_teacher','subject_id','teacher_id')
+        ->using(SubjectTeacher::class)
         ->withPivot('active')
         ->withTimestamps();
     }
@@ -65,6 +74,14 @@ class Subject extends Model
     static public function subjectsNotForClass($id){
         $result = Subject::whereDoesntHave('classes', function ($query) use($id){
             $query->where('classes_subject.classes_id','=',$id);
+        })->where('subjects.is_delete',false)->get();
+
+        return $result;
+    }
+    
+    static public function subjectsNotForTeacher($id){
+        $result = Subject::whereDoesntHave('teachers', function ($query) use($id){
+            $query->where('subject_teacher.teacher_id','=',$id);
         })->where('subjects.is_delete',false)->get();
 
         return $result;

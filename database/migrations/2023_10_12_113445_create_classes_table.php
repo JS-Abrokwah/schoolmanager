@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
             
-            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('created_by')->references('id')->on('users')->OnUpdate('cascade')->OnDelete('set null');
         });
     }
 

@@ -55,7 +55,9 @@
                         <th>ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Sex</th>
                         <th>Email</th>
+                        <th>Phone Number</th>
                         <th>Created Date</th>
                         <th>Action</th>
                       </tr>
@@ -66,7 +68,9 @@
                           <td>{{ $admin->id }}</td>
                           <td>{{ $admin->first_name }}</td>
                           <td>{{ $admin->last_name }}</td>
+                          <td>{{ $admin->sex }}</td>
                           <td>{{ $admin->email }}</td>
+                          <td>{{ $admin->phone_no }}</td>
                           <td>{{ date('d-m-Y H:i A', strtotime($admin->created_at)) }}</td>
                           <td>
                             <a href="{{ url('admin/admin/edit/'.$admin->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
@@ -134,6 +138,28 @@
                       @error('email')
                         <span class="text-danger">{{ $message }}</span>
                       @enderror
+                    </div>
+                    <div class="form-group row">
+                      <label for="phone_no" class="col-sm-3 col-form-label">Phone Number</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" name="phone_no" placeholder="New Admin's phone number">
+                      </div>
+                      @error('phone_no')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                    <div class="form-group row">
+                      <label for="sex" class="col-sm-3 col-form-label text-center">Sex: <span class="text-danger">*</span></label>
+                      <div class="col-sm-9">
+                        <select class="form-control form-control-sm" name="sex">
+                          <option value="" selected>Select</option>
+                          <option value="Male" >Male</option>
+                          <option value="Female" >Female</option>
+                        </select>
+                        @error('sex')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-3 my-1"></div>

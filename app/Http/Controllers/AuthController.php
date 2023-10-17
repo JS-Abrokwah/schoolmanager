@@ -62,13 +62,14 @@ class AuthController extends Controller
             'first_name'=>'required',
             'last_name'=>'required',
             'email'=>'required | email | unique:users',
-            'password'=>'required | min:6 | max:14'
+            'password'=>'required | min:6 | max:14',
+            'phone_no'=>'required | min:10 | max:13',
+            'sex'=>'required',
         ]);
 
         if($request->terms !== "on"){
             return redirect()->back()->with('terms-warning',"$request->name is already registered");
         }
-
         $school = new School();
         $admin = new User();
         
@@ -77,6 +78,8 @@ class AuthController extends Controller
         $admin->email = $request->email;
         $admin->user_type = $request->user_type;
         $admin->password = Hash::make($request->password);
+        $admin->phone_no = $request->phone_no;
+        $admin->sex = $request->sex;
         // $admin->save();
 
 

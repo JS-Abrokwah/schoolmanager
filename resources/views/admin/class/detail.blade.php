@@ -55,6 +55,9 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title font-weight-bold">Subjects</h3>
+                  <span class="ml-5 text-info font-weight-bold">Total Subjects: @foreach ($class as $cls)
+                    {{ $cls->subjects->count() }}
+                  @endforeach</span>
                   <div class="float-right dropdown">
                       <a class="btn btn-sm btn-primary mr-3"  data-toggle="dropdown"><i class="fas fa-plus"></i> New</a>
                       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -87,8 +90,8 @@
                   </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body p-0">
-                  <table class="table table-striped">
+                <div class="card-body p-0 table-responsive p-0" style="height: 300px;">
+                  <table class="table table-striped table-head-fixed text-nowrap">
                     <thead>
                       <tr>
                         <th>Subject ID</th>
@@ -149,8 +152,8 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0" style="height: 300px;">
-                <table class="table table-head-fixed text-nowrap">
+              <div class="card-body table-responsive p-0" style="height: 400px;">
+                <table class="table table-head-fixed text-nowrap table-hover">
                   <thead>
                     <tr>
                       <th>ID</th>

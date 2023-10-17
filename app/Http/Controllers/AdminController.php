@@ -22,7 +22,9 @@ class AdminController extends Controller
         $request->validate([
             'first_name'=>'required',
             'last_name'=>'required',
-            'email'=>'required|email|unique:users'
+            'email'=>'required|email|unique:users',
+            'phone_no'=>'required | min:10 | max:13',
+            'sex'=>'required',
         ]);
 
         $foundUser=User::where('email','=',$request->email)->where('is_deleted','=',false)->first();
@@ -34,6 +36,8 @@ class AdminController extends Controller
             $user->email = trim($request->email);
             $user->user_type = "Admin";
             $user->password = Hash::make(Str::random(8));
+            $user->phone_no = trim($request->phone_no);
+            $user->sex = trim($request->sex);
             $user->remember_token = Str::random(30); 
             $school->users()->save($user);
             Mail::to($user->email)->send(new NewAccountMail($user));
