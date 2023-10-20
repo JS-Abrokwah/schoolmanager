@@ -65,16 +65,16 @@ class User extends Authenticatable
     }
 
     public function admin() {
-            return (Auth::user()->user_type==='Admin')? $this->hasOne(Admin::class):NULL;  
+            return $this->hasOne(Admin::class);  
     }
     public function parents() {
-        return (Auth::user()->user_type==='Parent')?$this->hasOne(Parents::class):NULL;
+        return $this->hasOne(Parents::class);
     }
     public function teacher() {
-        return (Auth::user()->user_type==='Teacher')? $this->hasOne(Teacher::class):NULL;
+        return $this->hasOne(Teacher::class);
     }
     public function student() {
-        return (Auth::user()->user_type==='Admin')? $this->hasOne(Student::class):NULL;
+        return $this->hasOne(Student::class);
     }
 // End Relationships block
 

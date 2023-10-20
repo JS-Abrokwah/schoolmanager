@@ -190,6 +190,31 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item @if (Request::segment(3)=="view_student")
+            menu-is-opening menu-open
+            @endif">
+              <a href="{{ url('admin/students/list') }}" class="nav-link @if (Request::segment(2)=="students") active @endif">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Students
+                  @if (Request::segment(3)=="view_student")
+                  <i class="right fas fa-angle-left"></i>
+                  @endif
+                </p>
+              </a>
+              @if (Request::segment(3)=="view_student")
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link @if (Request::segment(3)=="view_student") active @endif">
+                      <i class="far fa-circle nav-icon"></i>
+                      @foreach ($students as $student)
+                        <p>{{ $student->first_name }}</p>
+                      @endforeach
+                    </a>
+                  </li>
+                </ul>
+              @endif
+            </li>
             <li class="nav-item @if (Request::segment(3)=="view_class")
             menu-is-opening menu-open
             @endif">

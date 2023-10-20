@@ -7,6 +7,7 @@ use Hash;
 use Auth;
 use App\Models\User;
 use App\Models\School;
+use App\Models\Admin;
 use App\Mail\ForgotPasswordMail;
 use Mail;
 use Str;
@@ -65,22 +66,25 @@ class AuthController extends Controller
             'password'=>'required | min:6 | max:14',
             'phone_no'=>'required | min:10 | max:13',
             'sex'=>'required',
+            'staff_id'=>'required',
+            'position'=>'required',
         ]);
 
         if($request->terms !== "on"){
             return redirect()->back()->with('terms-warning',"$request->name is already registered");
         }
         $school = new School();
-        $admin = new User();
+        $user = new User();
+        $admin = new Admin();
         
-        $admin->first_name = $request->first_name;
-        $admin->last_name = $request->last_name;
-        $admin->email = $request->email;
-        $admin->user_type = $request->user_type;
-        $admin->password = Hash::make($request->password);
-        $admin->phone_no = $request->phone_no;
-        $admin->sex = $request->sex;
-        // $admin->save();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->user_type = $request->user_type;
+        $user->password = Hash::make($request->password);
+        $user->phone_no = $request->phone_no;
+        $user->sex = $request->sex;
+        // $user->save();
 
 
         $school->name=$request->name;
@@ -91,8 +95,11 @@ class AuthController extends Controller
         $school->district=$request->district;
         $school->region=$request->region;
         $school->save();
-        $school->users()->save($admin);
+        $school->users()->save($user);
 
+        $admin->staff_id = $request->staff_id;
+        $admin->position = $request->position;
+        $user->admin()->save($admin);
         return redirect('login')->with('success','Registration successful. Login to continue.');
     }
 

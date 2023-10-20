@@ -184,12 +184,30 @@
                       @enderror
                     </div>
                   </div>
+                  <div class="form-group row">
+                    <label for="staff_id" class="col-sm-3 col-form-label text-center">Staff ID. <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" name="staff_id" placeholder="Eg. Your staff id or number">
+                      @error('staff_id')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="position" class="col-sm-3 col-form-label text-center">Position. <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" name="position" placeholder="Eg. Headmaster">
+                      @error('position')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
                   <div class="form-group mb-0">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" name="terms" class="custom-control-input" id="termsCheck">
                       <label class="custom-control-label" for="termsCheck">I agree to our <a href="#">terms of service</a>.</label>
                     </div>
-                    @if(!empty(session('terms-warning')) || $errors->has('first_name')||$errors->has('last_name')||$errors->has('email')||$errors->has('password')||$errors->has('phone_no')||$errors->has('sex'))
+                    @if(!empty(session('terms-warning')) || $errors->has('first_name')||$errors->has('last_name')||$errors->has('email')||$errors->has('password')||$errors->has('phone_no')||$errors->has('sex')||$errors->has('staff_id')||$errors->has('position'))
                       <script type="text/javascript">
                          setTimeout(() => {
                           $('#personal-tab').click()
