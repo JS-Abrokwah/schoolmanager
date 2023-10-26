@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('region');
             $table->string('country')->default('Ghana');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

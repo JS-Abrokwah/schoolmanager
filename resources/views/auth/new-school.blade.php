@@ -162,16 +162,55 @@
                       @enderror
                     </div>
                   </div>
+                  <div class="form-group row">
+                    <label for="phone_no" class="col-sm-3 col-form-label text-center">Phone No. <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" name="phone_no" placeholder="Eg. 054*******  or  +233*********">
+                      @error('phone_no')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="sex" class="col-sm-3 col-form-label text-center">Sex: <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <select class="form-control form-control-sm" name="sex">
+                        <option value="" selected>Select</option>
+                        <option value="Male" >Male</option>
+                        <option value="Female" >Female</option>
+                      </select>
+                      @error('sex')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="staff_id" class="col-sm-3 col-form-label text-center">Staff ID. <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" name="staff_id" placeholder="Eg. Your staff id or number">
+                      @error('staff_id')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="position" class="col-sm-3 col-form-label text-center">Position. <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control form-control-sm" name="position" placeholder="Eg. Headmaster">
+                      @error('position')
+                        <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                  </div>
                   <div class="form-group mb-0">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" name="terms" class="custom-control-input" id="termsCheck">
                       <label class="custom-control-label" for="termsCheck">I agree to our <a href="#">terms of service</a>.</label>
                     </div>
-                    @if(!empty(session('terms-warning')))
+                    @if(!empty(session('terms-warning')) || $errors->has('first_name')||$errors->has('last_name')||$errors->has('email')||$errors->has('password')||$errors->has('phone_no')||$errors->has('sex')||$errors->has('staff_id')||$errors->has('position'))
                       <script type="text/javascript">
                          setTimeout(() => {
-                          $('#personal-info').show()
-                          $('#school-info').hide()
+                          $('#personal-tab').click()
                          }, 100);
                       </script>
                       <span class="text-danger">Kindly read and accept our terms of services</span>
@@ -220,12 +259,10 @@
       $('#school-info').hide()
     })
     $('#prevTab').click(function(){
-      $('#school-info').show()
-      $('#personal-info').hide()
+      $('#school-tab').click()
     })
     $('#nextTab').click(function(){
-      $('#personal-info').show()
-      $('#school-info').hide()
+      $('#personal-tab').click()
     })
   })
 </script>

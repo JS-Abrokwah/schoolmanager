@@ -7,6 +7,7 @@ use Hash;
 use Auth;
 use App\Models\User;
 use App\Models\School;
+use App\Models\Admin;
 use App\Mail\ForgotPasswordMail;
 use Mail;
 use Str;
@@ -62,22 +63,28 @@ class AuthController extends Controller
             'first_name'=>'required',
             'last_name'=>'required',
             'email'=>'required | email | unique:users',
-            'password'=>'required | min:6 | max:14'
+            'password'=>'required | min:6 | max:14',
+            'phone_no'=>'required | min:10 | max:13',
+            'sex'=>'required',
+            'staff_id'=>'required',
+            'position'=>'required',
         ]);
 
         if($request->terms !== "on"){
             return redirect()->back()->with('terms-warning',"$request->name is already registered");
         }
-
         $school = new School();
-        $admin = new User();
+        $user = new User();
+        $admin = new Admin();
         
-        $admin->first_name = $request->first_name;
-        $admin->last_name = $request->last_name;
-        $admin->email = $request->email;
-        $admin->user_type = $request->user_type;
-        $admin->password = Hash::make($request->password);
-        // $admin->save();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->user_type = $request->user_type;
+        $user->password = Hash::make($request->password);
+        $user->phone_no = $request->phone_no;
+        $user->sex = $request->sex;
+        // $user->save();
 
 
         $school->name=$request->name;
@@ -88,8 +95,11 @@ class AuthController extends Controller
         $school->district=$request->district;
         $school->region=$request->region;
         $school->save();
-        $school->users()->save($admin);
+        $school->users()->save($user);
 
+        $admin->staff_id = $request->staff_id;
+        $admin->position = $request->position;
+        $user->admin()->save($admin);
         return redirect('login')->with('success','Registration successful. Login to continue.');
     }
 
@@ -106,6 +116,9 @@ class AuthController extends Controller
             }
             else if(Auth::user()->user_type==="Student"){
                 return redirect('student/dashboard');
+            }else{
+                $this->logout();
+                abort(404);
             }
         }
         return view('auth.login',['page_title'=>"Login"]);
@@ -129,6 +142,9 @@ class AuthController extends Controller
             }
             else if(Auth::user()->user_type==="Student"){
                 return redirect('student/dashboard');
+            }else{
+                $this->logout();
+                abort(404);
             }
         }else{
             return redirect()->back()->with('error', 'Invalid Email or Password');
@@ -160,7 +176,8 @@ class AuthController extends Controller
         if (!empty($user)){
             return view('auth.reset',['page_title'=>"Reset Password",'user'=>$user]);
         }else{
-            abort('404');
+            $this->logout();
+            abort(404);
         }
     }
 
@@ -178,6 +195,27 @@ class AuthController extends Controller
         }else{
             return redirect()->back()->with('not_match', 'Password does not match');
         }
+    }
+
+    public function changePassword(Request $request){
+        // dd(Hash::make('12345678'));
+        $request->validate([
+            'reset_old_password'=>'required',
+            'reset_new_password'=>'required',
+            'reset_confirm_password'=>'required'
+        ]);
+        if($request->reset_new_password === $request->reset_confirm_password){
+            $user = Auth::user();
+            if(Hash::check($request->reset_old_password,$user->password)){
+                $user->password = $request->reset_new_password;
+                $user->save();
+                return redirect()->back()->with('reset_success','Password successfully reset'); 
+            }else{
+                return redirect()->back()->with('reset_error','Invalid Old Password'); 
+            }
+         }else{
+             return redirect()->back()->with('reset_not_match', 'Password does not match');
+         }
     }
 
     public function logout(){

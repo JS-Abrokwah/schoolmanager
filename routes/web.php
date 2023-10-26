@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ParentController;
 
 
 
@@ -30,12 +33,13 @@ Route::get('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('forgot-password',[AuthController::class, 'sendResetLink']);
 Route::get('password-reset/{token}',[AuthController::class, 'resetPassword']);
 Route::post('reset-password/{token}',[AuthController::class, 'resetUserPassword']);
+Route::post('change-password', [AuthController::class, 'changePassword']);
 
 
 
 
 
-// Route groups
+// Admin Route groups
 Route::middleware(['admin'])->group(function () {
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
     Route::get('admin/admin/list', [AdminController::class, 'list']);
@@ -57,6 +61,30 @@ Route::middleware(['admin'])->group(function () {
     Route::get('admin/class/del_subject/{class_id}/{subject_id}', [ClassesController::class, 'detachSubject']);
     Route::get('admin/class/view_subject/{id}', [SubjectController::class, 'subjectDetail']);
     
+     // Students url
+     Route::get('admin/students/list', [StudentController::class, 'list']);
+     Route::post('admin/students/add-student', [StudentController::class, 'addNewStudent']);
+     Route::get('admin/students/edit/{id}', [StudentController::class, 'edit']);
+     Route::post('admin/students/edit', [StudentController::class, 'update']);
+     Route::get('admin/students/delete/{id}', [StudentController::class, 'warnDelete']);
+     Route::post('admin/students/delete', [StudentController::class, 'destroy']);
+     
+     // Teachers url
+     Route::get('admin/teachers/list', [TeacherController::class, 'list']);
+     Route::post('admin/teachers/add-subject', [TeacherController::class, 'addNewTeacher']);
+     Route::get('admin/teachers/edit/{id}', [TeacherController::class, 'edit']);
+     Route::post('admin/teachers/edit', [TeacherController::class, 'update']);
+     Route::get('admin/teachers/delete/{id}', [TeacherController::class, 'warnDelete']);
+     Route::post('admin/teachers/delete', [TeacherController::class, 'destroy']);
+     
+     // Parents url
+     Route::get('admin/parents/list', [ParentController::class, 'list']);
+     Route::post('admin/parents/add-subject', [ParentController::class, 'addNewParent']);
+     Route::get('admin/parents/edit/{id}', [ParentController::class, 'edit']);
+     Route::post('admin/parents/edit', [ParentController::class, 'update']);
+     Route::get('admin/parents/delete/{id}', [ParentController::class, 'warnDelete']);
+     Route::post('admin/parents/delete', [ParentController::class, 'destroy']);
+     
      // Subject url
      Route::get('admin/subject/list', [SubjectController::class, 'list']);
      Route::post('admin/subject/add-subject', [SubjectController::class, 'addNewSubject']);

@@ -4,9 +4,21 @@
     </div>
 @endif
 
+@if (!empty(session('reset_success')))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('reset_success') }}
+    </div>
+@endif
+
 @if (!empty(session('error')))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ session('error') }}
+    </div>
+@endif
+
+@if (!empty(session('reset_error')))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('reset_error') }}
     </div>
 @endif
 

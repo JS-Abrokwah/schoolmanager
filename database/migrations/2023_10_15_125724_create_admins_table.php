@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type'); //theory or practical
-            $table->string('category'); //core or elective
-            $table->unsignedBigInteger('created_by');
-            $table->boolean('status')->default(true);
-            $table->boolean('is_delete')->default(false);
+            $table->string('staff_id');
+            $table->string('position');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('admins');
     }
 };

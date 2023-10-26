@@ -55,24 +55,43 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title font-weight-bold">Subjects</h3>
+                  <span class="ml-5 text-info font-weight-bold">Total Subjects: @foreach ($class as $cls)
+                    {{ $cls->subjects->count() }}
+                  @endforeach</span>
                   <div class="float-right dropdown">
                       <a class="btn btn-sm btn-primary mr-3"  data-toggle="dropdown"><i class="fas fa-plus"></i> New</a>
                       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        @foreach ($subjects as $subject)
-                        <form action="{{ url('admin/class/add_subject') }}" method="post">
-                            @csrf
-                            <input type="text" name="subject_id" value="{{ $subject->id }}" hidden>
-                            <input type="text" name="class_id" value="{{ $classId }}" hidden>
-                            <button type="submit" class="btn btn-sm btn-link w-100">{{ $subject->name }}</button>
-                        </form>
+                        <div class="text-center py-2">
+                          <p class="h6 font-weight-bold text-secondary">Subjects</p>
+                        </div>
                         <div class="dropdown-divider"></div>
-                        @endforeach
+                        @if ($subjects->count() != 0)
+                          <form action="{{ url('admin/class/add_subject') }}" method="post">
+                            @csrf
+                            <input type="text" name="class_id" value="{{ $classId }}" hidden>
+                            
+                              @foreach ($subjects as $subject)
+                              <div class="px-5">
+                                <label class="text-primary font-weight-normal" for="{{ $subject->name }}">
+                                  <input type="checkbox" name="subject_id[]" value="{{ $subject->id }}" id="{{ $subject->name }}">
+                                  {{ $subject->name }}
+                                </label>
+                              </div>
+                              @endforeach
+                            <div class="dropdown-divider"></div>
+                            <div class="text-center py-2">
+                              <button type="submit" class="btn btn-sm btn-info px-5 rounded-pill">OK</button>
+                            </div>
+                          </form>
+                        @else
+                          <p class="text-center p-3 text-muted">Nothing to add... &lt; <a href="{{ url('admin/subject/list') }}">Click here</a> &gt; to create new subject</p>
+                        @endif
                       </div>
                   </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body p-0">
-                  <table class="table table-striped">
+                <div class="card-body p-0 table-responsive p-0" style="height: 300px;">
+                  <table class="table table-striped table-head-fixed text-nowrap">
                     <thead>
                       <tr>
                         <th>Subject ID</th>
@@ -133,8 +152,8 @@
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0" style="height: 300px;">
-                <table class="table table-head-fixed text-nowrap">
+              <div class="card-body table-responsive p-0" style="height: 400px;">
+                <table class="table table-head-fixed text-nowrap table-hover">
                   <thead>
                     <tr>
                       <th>ID</th>

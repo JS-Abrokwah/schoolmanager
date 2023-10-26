@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
+use App\Models\School;
 use App\Models\Subject;
 use Auth;
 
@@ -18,7 +19,13 @@ class ClassesController extends Controller
             'name'=>'required',
             'status'=>'required',
         ]);
-        Classes::create($request->all());
+        $class = new Classes();
+        $schoolId=Auth::user()->school->id;
+
+        $class->name = $request->name;
+        $class->created_by = $request->created_by;
+        $class->status = $request->status;
+        School::find($schoolId)->classes()->save($class);
         return redirect('admin/class/list')->with('success', "Class ($request->name) successfully added");
     }
 
@@ -76,8 +83,10 @@ class ClassesController extends Controller
 
     public function attachSubject(Request $request){
         $class=Classes::find($request->class_id);
-        $subject=Subject::find($request->subject_id);
-        $class->subjects()->attach($subject->id);
+        // $subject=Subject::find($request->subject_id);
+        if(!empty($request->subject_id)){
+            $class->subjects()->attach($request->subject_id);
+        }
         $page_title = $class->name;
         $class_id = $class->id;
         $subjects = Subject::subjectsNotForClass($class->id);

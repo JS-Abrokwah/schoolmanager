@@ -117,6 +117,42 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
+      {{-- User Profile Pannel --}}
+      <li class="nav-item dropdown user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <img src="{{ url('/images/user2-avatar.jpg') }}" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline">{{ Auth::user()->first_name." ".Auth::user()->last_name }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <!-- User image -->
+          <li class="user-header bg-info ">
+            <img src="{{ url('/images/user2-avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
+            <p>
+              {{ Auth::user()->first_name." ".Auth::user()->last_name }} @if (Auth::user()->user_type === "Admin")   
+                - <span class="font-weight-light">({{ Auth::user()->admin->position }})</span>
+              @elseif (Auth::user()->user_type === "Teacher")
+                - <span class="font-weight-light">({{ Auth::user()->teacher>position }})</span>
+              @endif 
+              <small>You're logged in as <span class="font-weight-bold font-italic"> {{ (Auth::user()->user_type=='Admin')?'Administrator': Auth::user()->user_type }}</span></small>
+            </p>
+          </li>
+          <!-- Menu Body -->
+          <li class="user-body">
+            <div class="text-center">
+              <button class="btn btn-sm btn-link w-100" data-toggle="modal" data-target="#passwordModal">Change Password</button>
+            </div>
+          </li>
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            <a href="{{ url('logout') }}" class="btn btn-sm btn-link text-danger float-right">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <span>
+                Logout
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -135,13 +171,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ url('/images/user2-avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->first_name." ".Auth::user()->last_name }}</a>
-        </div>
+      <div class=" my-5  ">
       </div>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -164,6 +194,31 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item @if (Request::segment(3)=="view_student")
+            menu-is-opening menu-open
+            @endif">
+              <a href="{{ url('admin/students/list') }}" class="nav-link @if (Request::segment(2)=="students") active @endif">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Students
+                  @if (Request::segment(3)=="view_student")
+                  <i class="right fas fa-angle-left"></i>
+                  @endif
+                </p>
+              </a>
+              @if (Request::segment(3)=="view_student")
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link @if (Request::segment(3)=="view_student") active @endif">
+                      <i class="far fa-circle nav-icon"></i>
+                      @foreach ($students as $student)
+                        <p>{{ $student->first_name }}</p>
+                      @endforeach
+                    </a>
+                  </li>
+                </ul>
+              @endif
+            </li>
             <li class="nav-item @if (Request::segment(3)=="view_class")
             menu-is-opening menu-open
             @endif">
@@ -178,9 +233,6 @@
               </a>
               @if (Request::segment(3)=="view_class")
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    
-                  </li>
                   <li class="nav-item">
                     <a href="" class="nav-link @if (Request::segment(3)=="view_class") active @endif">
                       <i class="far fa-circle nav-icon"></i>
@@ -250,3 +302,73 @@
     </div>
     <!-- /.sidebar -->
   </aside>
+
+  <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm " role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-info">
+          <p class="font-weight-bold h5" id="exampleModalLongTitle">Change Password</p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        @include('_message')
+        <div class="modal-body">
+          <form action="{{ url("change-password") }}" method="post">
+            @csrf
+            <div class="input-group">
+              <input type="password" class="form-control form-control-sm" name="reset_old_password" placeholder="Old Password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            @error('reset_old_password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <div class="input-group mt-3">
+              <input type="password" class="form-control form-control-sm" name="reset_new_password" placeholder="New Password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            @error('reset_new_password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <div class="input-group mt-3">
+                <input type="password" class="form-control form-control-sm" name="reset_confirm_password" placeholder="Confirm Password">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+            </div>
+            @error('reset_confirm_password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            @if (!empty(session('reset_not_match')))
+                <span class="text-danger">{{ session('reset_not_match') }}</span>
+            @endif
+            <div class="row mt-3">
+              <!-- /.col -->
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>      
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if ($errors->has('reset_new_password') || $errors->has('reset_old_password') || $errors->has('reset_confirm_password')||!empty(session('reset_error'))||!empty(session('reset_success')) ||!empty(session('reset_not_match')))
+      <script type="text/javascript">
+          setTimeout(() => {
+          $('#passwordModal').modal('show');
+          }, 500);
+      </script>
+  @endif

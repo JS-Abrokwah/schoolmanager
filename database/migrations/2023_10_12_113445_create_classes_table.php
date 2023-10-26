@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('created_by')->index();
+            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('programme_id')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('is_deleted')->default(false);
-            $table->timestamps();
             
-            $table->foreign('created_by')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('created_by')->references('id')->on('users')->OnUpdate('cascade')->OnDelete('set null');
+            $table->foreign('school_id')->references('id')->on('schools')->OnUpdate('cascade')->OnDelete('cascade');
+            $table->foreign('programme_id')->references('id')->on('programmes')->OnUpdate('cascade')->OnDelete('cascade');
+            $table->timestamps();
         });
     }
 
