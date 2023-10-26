@@ -17,6 +17,7 @@ class SubjectController extends Controller
             'name'=>'required',
             'type'=>'required',
             'status'=>'required',
+            'category'=>'required',
         ]);
         // dd($request->all());
         Subject::create($request->all());

@@ -116,6 +116,9 @@ class AuthController extends Controller
             }
             else if(Auth::user()->user_type==="Student"){
                 return redirect('student/dashboard');
+            }else{
+                $this->logout();
+                abort(404);
             }
         }
         return view('auth.login',['page_title'=>"Login"]);
@@ -139,6 +142,9 @@ class AuthController extends Controller
             }
             else if(Auth::user()->user_type==="Student"){
                 return redirect('student/dashboard');
+            }else{
+                $this->logout();
+                abort(404);
             }
         }else{
             return redirect()->back()->with('error', 'Invalid Email or Password');
@@ -170,7 +176,8 @@ class AuthController extends Controller
         if (!empty($user)){
             return view('auth.reset',['page_title'=>"Reset Password",'user'=>$user]);
         }else{
-            abort('404');
+            $this->logout();
+            abort(404);
         }
     }
 

@@ -128,7 +128,11 @@
           <li class="user-header bg-info ">
             <img src="{{ url('/images/user2-avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
             <p>
-              {{ Auth::user()->first_name." ".Auth::user()->last_name }}
+              {{ Auth::user()->first_name." ".Auth::user()->last_name }} @if (Auth::user()->user_type === "Admin")   
+                - <span class="font-weight-light">({{ Auth::user()->admin->position }})</span>
+              @elseif (Auth::user()->user_type === "Teacher")
+                - <span class="font-weight-light">({{ Auth::user()->teacher>position }})</span>
+              @endif 
               <small>You're logged in as <span class="font-weight-bold font-italic"> {{ (Auth::user()->user_type=='Admin')?'Administrator': Auth::user()->user_type }}</span></small>
             </p>
           </li>

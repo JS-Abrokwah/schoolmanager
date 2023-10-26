@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Parents;
+use App\Models\Programme;
 use App\Models\Classes;
 
 
@@ -45,5 +46,16 @@ class Student extends Model
 
     public function classes() {
         $this->belongsTo(Classes::class);
+    }
+
+    public function programme(){
+        return $this->belongsTo(Programme::class);
+    }
+
+    public function subjects(){
+        return $this->belongsToMany(Subject::class,'student_subject','student_id','subject_id')
+        ->using(StudentSubject::class)
+        ->withPivot('active')
+        ->withTimestamps();  
     }
 }

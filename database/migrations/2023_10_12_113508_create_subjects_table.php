@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('created_by');
+            $table->string('type'); //theory or practical
+            $table->string('category'); //core or elective
+            $table->unsignedBigInteger('created_by');
             $table->boolean('status')->default(true);
             $table->boolean('is_delete')->default(false);
             $table->timestamps();

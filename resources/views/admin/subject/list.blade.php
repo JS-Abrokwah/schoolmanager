@@ -145,6 +145,19 @@
                         @enderror
                       </div>
                     </div>
+                    <div class="form-group row">
+                      <label for="category" class="col-sm-3 col-form-label">Category</label>
+                      <div class="col-sm-9">
+                        <select class="form-control" name="category">
+                            <option value="" selected>Select Core or Elective</option>
+                            <option value="Core">Core</option>
+                            <option value="Elective">Elective</option>
+                        </select>
+                        @error('category')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
+                    </div>
                     <div class="row">
                       <div class="col-sm-3 my-1"></div>
                       <div class="col-sm-6 my-1 row">

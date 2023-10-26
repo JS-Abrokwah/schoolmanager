@@ -63,7 +63,7 @@ Route::middleware(['admin'])->group(function () {
     
      // Students url
      Route::get('admin/students/list', [StudentController::class, 'list']);
-     Route::post('admin/students/add-subject', [StudentController::class, 'addNewStudent']);
+     Route::post('admin/students/add-student', [StudentController::class, 'addNewStudent']);
      Route::get('admin/students/edit/{id}', [StudentController::class, 'edit']);
      Route::post('admin/students/edit', [StudentController::class, 'update']);
      Route::get('admin/students/delete/{id}', [StudentController::class, 'warnDelete']);

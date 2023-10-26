@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\School;
 use App\Models\Subject;
+use App\Models\Programme;
 use App\Models\ClassesSubject;
 use Request;
 use Auth;
@@ -36,6 +38,13 @@ class Classes extends Model
         ->withTimestamps();
     }
 
+    public function school(){
+        return $this->belongsTo(School::class);
+    }
+
+    public function programme(){
+        return $this->belongsTo(Programme::class);
+    }
     static public function classList(){
         $result = Classes::select('classes.*','users.first_name as creator_first_name','users.last_name as creator_last_name')
                             ->where('classes.is_deleted','=',false)

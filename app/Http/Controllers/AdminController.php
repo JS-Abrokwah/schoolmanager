@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Admin;
 use App\Mail\NewAccountMail;
 use Mail;
 use Hash;
@@ -25,12 +26,15 @@ class AdminController extends Controller
             'email'=>'required|email|unique:users',
             'phone_no'=>'required | min:10 | max:13',
             'sex'=>'required',
+            'staff_id'=>'required',
+            'position'=>'required',
         ]);
 
-        $foundUser=User::where('email','=',$request->email)->where('is_deleted','=',false)->first();
         if($this->isOnline()){
             $school = Auth::user()->school;
             $user =  new User;
+            $admin = new Admin();
+
             $user->first_name = trim($request->first_name);
             $user->last_name = trim($request->last_name);
             $user->email = trim($request->email);
@@ -40,10 +44,17 @@ class AdminController extends Controller
             $user->sex = trim($request->sex);
             $user->remember_token = Str::random(30); 
             $school->users()->save($user);
+
+            $admin->staff_id = $request->staff_id;
+            $admin->position = $request->position;
+
+            $user->admin()->save($admin);
+            
             Mail::to($user->email)->send(new NewAccountMail($user));
             return redirect()->back()->with('success',"New Admin successfully created");
         }else{
-            return redirect()->back()->with('error',"Oops! Couldn't add new Admin. Check your internet connection and try again");
+            // return redirect()->back()->with('error',"Oops! Couldn't add new Admin. Check your internet connection and try again");
+            abort(503);
         }
     }
 
@@ -55,7 +66,7 @@ class AdminController extends Controller
             $user->save();
             return redirect()->back()->with(['success'=>"Admin ($user->first_name $user->last_name) successfully deleted"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -64,7 +75,7 @@ class AdminController extends Controller
         if(!empty($user)){
             return redirect()->back()->with(['warnAdmin'=>$user]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -73,7 +84,7 @@ class AdminController extends Controller
         if(!empty($user)){
             return redirect()->back()->with(['editAdmin'=>$user]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -88,7 +99,7 @@ class AdminController extends Controller
 
             return redirect()->back()->with(['success'=>"Admin update successful"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
     // Check whether user is online

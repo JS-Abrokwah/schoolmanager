@@ -55,6 +55,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // public function relatedUser(){
+    //     switch($this->user_type){
+    //         case "Admin":
+    //             return $this->admin();
+    //         case "Parent":
+    //             return $this->parents();
+    //         case "Student":
+    //             return $this->student();
+    //         case "Teacher":
+    //             return $this->teacher();
+    //         default:
+    //             return null;
+    //     }
+    // }
     // Relationships block
     public function school(){
         return $this->belongsTo(School::class);
@@ -87,7 +101,7 @@ class User extends Authenticatable
         return User::where('remember_token','=',$remember_token)->first();
     }
     
-    static public function adminList(){
+    public static function adminList(){
         // This also allow search
         $result = User::where('user_type','=','Admin');
                     if(!empty(Request::get('search'))){
@@ -128,6 +142,41 @@ class User extends Authenticatable
                     }
         $result=$result->where('user_type','=','Admin')->where('school_id','=', Auth::user()->school->id)
                     ->where('email','!=',Auth::user()->email)
+                    ->orderBy('id','desc')
+                    ->paginate(10);
+        return $result;
+    }
+
+    public static function studentsList() {
+        $result = User::whereHas('student',function ($query){
+            return $query->where('school_id','=',Auth::user()->school->id);
+        })->where('user_type','=','Student');
+                    if(!empty(Request::get('search'))){
+                        $result=$result->where('first_name','like','%'.Request::get('search').'%')
+                                        ->where('is_deleted','=',false)
+
+                                        ->orWhere(function($query){
+                                            $query->where('last_name','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
+                                        })
+                                        ->orWhere(function($query){
+                                            $query->where('email','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
+                                        })
+                                        ->orWhere(function($query){
+                                            $query->where('sex','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
+                                        })
+                                        ->orWhere(function($query){
+                                            $query->where('phone_no','like','%'.Request::get('search').'%')
+                                            ->where('is_deleted','=',false);
+                                        })
+                                        ->orWhere(function($query){
+                                            $query->where('id','=',Request::get('search'))
+                                            ->where('is_deleted','=',false);
+                                        });
+                    }
+        $result=$result->where('user_type','=','Student')->where('school_id','=', Auth::user()->school->id)
                     ->orderBy('id','desc')
                     ->paginate(10);
         return $result;

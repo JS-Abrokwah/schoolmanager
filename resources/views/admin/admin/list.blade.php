@@ -113,40 +113,40 @@
                 <form action="{{ url('admin/admin/add-admin') }}" method="post" class="form-horizontal" id="newAdmin">
                   @csrf
                     <div class="form-group row">
-                      <label for="first_name" class="col-sm-3 col-form-label">First Name</label>
+                      <label for="first_name" class="col-sm-3 col-form-label">First Name <span class="text-danger">*</span></label>
                       <div class="col-sm-9">
                         <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                        @error('first_name')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
                       </div>
-                      @error('first_name')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
                     </div>
                     <div class="form-group row">
-                      <label for="last_name" class="col-sm-3 col-form-label">Last Name</label>
+                      <label for="last_name" class="col-sm-3 col-form-label">Last Name <span class="text-danger">*</span></label>
                       <div class="col-sm-9">
                         <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                        @error('last_name')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
                       </div>
-                      @error('last_name')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
                     </div>
                     <div class="form-group row">
-                      <label for="email" class="col-sm-3 col-form-label">Email</label>
+                      <label for="email" class="col-sm-3 col-form-label">Email <span class="text-danger">*</span></label>
                       <div class="col-sm-9">
                         <input type="text" class="form-control" name="email" placeholder="New Admin's email">
+                        @error('email')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
                       </div>
-                      @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
                     </div>
                     <div class="form-group row">
-                      <label for="phone_no" class="col-sm-3 col-form-label">Phone Number</label>
+                      <label for="phone_no" class="col-sm-3 col-form-label">Phone Number <span class="text-danger">*</span></label>
                       <div class="col-sm-9">
                         <input type="text" class="form-control" name="phone_no" placeholder="New Admin's phone number">
+                        @error('phone_no')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
                       </div>
-                      @error('phone_no')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
                     </div>
                     <div class="form-group row">
                       <label for="sex" class="col-sm-3 col-form-label text-center">Sex: <span class="text-danger">*</span></label>
@@ -157,6 +157,24 @@
                           <option value="Female" >Female</option>
                         </select>
                         @error('sex')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="staff_id" class="col-sm-3 col-form-label text-center">Staff ID. <span class="text-danger">*</span></label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-sm" name="staff_id" placeholder="Eg. Your staff id or number">
+                        @error('staff_id')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="position" class="col-sm-3 col-form-label text-center">Position. <span class="text-danger">*</span></label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-sm" name="position" placeholder="Eg. Headmaster">
+                        @error('position')
                           <span class="text-danger">{{ $message }}</span>
                         @enderror
                       </div>
@@ -278,7 +296,7 @@
  <!-- /.content-wrapper -->
 
 
-  @if ($errors->has('email') || $errors->has('first_name') || $errors->has('last_name')||!empty(session('error')))
+  @if ($errors->has('email') || $errors->has('first_name') || $errors->has('last_name')|| $errors->has('staff_id')|| $errors->has('position')||!empty(session('error')))
       <script type="text/javascript">
           setTimeout(() => {
           $('#newAdminModal').modal('show');

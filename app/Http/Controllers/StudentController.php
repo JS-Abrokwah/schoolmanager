@@ -11,10 +11,12 @@ class StudentController extends Controller
 {
     //
     public function list() {
-        return view('admin.student.list',['page_title'=>'Student List']);
+        $students = User::studentsList();
+        // dd($students);
+        return view('admin.student.list',['page_title'=>'Student List','studentsRecord'=>$students]);
     }
     public function addNewStudent(Request $request) {
-        
+        dd($request->all());
     }
     public function edit($id) {
         
