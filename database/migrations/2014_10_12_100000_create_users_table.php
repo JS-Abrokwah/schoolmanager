@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('religion')->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
-            $table->boolean('is_deleted')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -36,6 +36,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

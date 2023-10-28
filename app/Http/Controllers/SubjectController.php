@@ -59,8 +59,7 @@ class SubjectController extends Controller
         $subject=Subject::find($request->id);
 
         if(!empty($subject)){
-            $subject->is_delete = true;
-            $subject->save();
+            $subject->delete();
             return redirect()->back()->with(['success'=>"($subject->name) successfully deleted"]);
         }else{
             return redirect()->back()->with(['error'=>"404! Resource Not Found"]);

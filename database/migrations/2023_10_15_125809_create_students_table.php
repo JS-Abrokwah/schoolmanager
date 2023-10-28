@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('house');//House of Affiliation
             $table->string('last_school_attended');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +36,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('students', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

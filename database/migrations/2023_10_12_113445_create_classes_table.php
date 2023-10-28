@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('school_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('programme_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(true);
-            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('classes', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('specialization'); // Science, Business, Vocational, Technical, IT, Arts,etc
             $table->boolean('status'); // 1 for active, 0 for inactive
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('programmes');
+        Schema::dropIfExists('programmes', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_teacher');
+        Schema::dropIfExists('subject_teacher', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

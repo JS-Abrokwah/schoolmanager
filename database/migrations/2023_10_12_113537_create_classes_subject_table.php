@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('active')->default(1);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes_subject');
+        Schema::dropIfExists('classes_subject', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Parents;
@@ -13,7 +14,7 @@ use App\Models\Classes;
 
 class Student extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'date_of_birth',
@@ -56,6 +57,6 @@ class Student extends Model
         return $this->belongsToMany(Subject::class,'student_subject','student_id','subject_id')
         ->using(StudentSubject::class)
         ->withPivot('active')
-        ->withTimestamps();  
+        ->withTimestamps()->withTrashed();  
     }
 }

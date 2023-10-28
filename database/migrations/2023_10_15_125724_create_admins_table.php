@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('position');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('admins', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

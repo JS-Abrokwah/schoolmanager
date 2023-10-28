@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -15,7 +16,7 @@ use Auth;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -55,40 +56,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // public function relatedUser(){
-    //     switch($this->user_type){
-    //         case "Admin":
-    //             return $this->admin();
-    //         case "Parent":
-    //             return $this->parents();
-    //         case "Student":
-    //             return $this->student();
-    //         case "Teacher":
-    //             return $this->teacher();
-    //         default:
-    //             return null;
-    //     }
-    // }
-    // Relationships block
     public function school(){
         return $this->belongsTo(School::class);
     }
 
     public function classes(){
-        return $this->hasMany(Classes::class,'created_by');
+        return $this->hasMany(Classes::class,'created_by')->withTrashed();
     }
 
     public function admin() {
-            return $this->hasOne(Admin::class);  
+            return $this->hasOne(Admin::class)->withTrashed();  
     }
     public function parents() {
-        return $this->hasOne(Parents::class);
+        return $this->hasOne(Parents::class)->withTrashed();
     }
     public function teacher() {
-        return $this->hasOne(Teacher::class);
+        return $this->hasOne(Teacher::class)->withTrashed();
     }
     public function student() {
-        return $this->hasOne(Student::class);
+        return $this->hasOne(Student::class)->withTrashed();
     }
 // End Relationships block
 
@@ -106,36 +92,30 @@ class User extends Authenticatable
         $result = User::where('user_type','=','Admin');
                     if(!empty(Request::get('search'))){
                         $result=$result->where('first_name','like','%'.Request::get('search').'%')
-                                        ->where('is_deleted','=',false)
                                         ->where('email','!=',Auth::user()->email)
 
                                         ->orWhere(function($query){
                                             $query->where('last_name','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false)
                                         ->where('email','!=',Auth::user()->email)
                                             ;
                                         })
                                         ->orWhere(function($query){
                                             $query->where('email','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false)
                                             ->where('email','!=',Auth::user()->email)
                                             ;
                                         })
                                         ->orWhere(function($query){
                                             $query->where('sex','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false)
                                             ->where('email','!=',Auth::user()->email)
                                             ;
                                         })
                                         ->orWhere(function($query){
                                             $query->where('phone_no','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false)
                                             ->where('email','!=',Auth::user()->email)
                                             ;
                                         })
                                         ->orWhere(function($query){
                                             $query->where('id','=',Request::get('search'))
-                                            ->where('is_deleted','=',false)
                                             ->where('email','!=',Auth::user()->email)
                                             ;
                                         });
@@ -153,27 +133,21 @@ class User extends Authenticatable
         })->where('user_type','=','Student');
                     if(!empty(Request::get('search'))){
                         $result=$result->where('first_name','like','%'.Request::get('search').'%')
-                                        ->where('is_deleted','=',false)
 
                                         ->orWhere(function($query){
-                                            $query->where('last_name','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false);
+                                            $query->where('last_name','like','%'.Request::get('search').'%');
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('email','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false);
+                                            $query->where('email','like','%'.Request::get('search').'%');
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('sex','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false);
+                                            $query->where('sex','like','%'.Request::get('search').'%');
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('phone_no','like','%'.Request::get('search').'%')
-                                            ->where('is_deleted','=',false);
+                                            $query->where('phone_no','like','%'.Request::get('search').'%');
                                         })
                                         ->orWhere(function($query){
-                                            $query->where('id','=',Request::get('search'))
-                                            ->where('is_deleted','=',false);
+                                            $query->where('id','=',Request::get('search'));
                                         });
                     }
         $result=$result->where('user_type','=','Student')->where('school_id','=', Auth::user()->school->id)

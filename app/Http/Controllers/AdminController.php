@@ -61,9 +61,7 @@ class AdminController extends Controller
     public function destroy(Request $request){
         $user=User::where('user_type','=','Admin')->where('id','!=',Auth::user()->id)->find($request->id);
         if(!empty($user)){
-            $user->is_deleted=true;
-            $user->email = 'deletedaccount';
-            $user->save();
+            $user->delete();
             return redirect()->back()->with(['success'=>"Admin ($user->first_name $user->last_name) successfully deleted"]);
         }else{
             abort(404);

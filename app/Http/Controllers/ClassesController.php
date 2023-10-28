@@ -68,8 +68,7 @@ class ClassesController extends Controller
     public function destroy(Request $request){
         $class=Classes::find($request->id);
         if(!empty($class)){
-            $class->is_deleted = true;
-            $class->save();
+            $class->delete();
             return redirect()->back()->with(['success'=>"Class ($class->name) successfully deleted"]);
         }else{
             return redirect()->back()->with(['error'=>"404! Resource Not Found"]);

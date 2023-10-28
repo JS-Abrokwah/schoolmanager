@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\School;
 use App\Models\Subject;
 use App\Models\Classes;
@@ -12,7 +13,7 @@ use Auth;
 
 class Programme extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable=[
         'name',
@@ -30,15 +31,15 @@ class Programme extends Model
         return $this->belongsToMany(Subject::class,'programme_subject','programme_id','subject_id')
         ->using(ProgrammeSubject::class)
         ->withPivot('active')
-        ->withTimestamps();
+        ->withTimestamps()->withTrashed();
     }
 
     public function classes() {
-        return $this->hasMany(Classes::class);
+        return $this->hasMany(Classes::class)->withTrashed();
     }
 
     public function students(){
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class)->withTrashed();
     }
 
     public function school(){
