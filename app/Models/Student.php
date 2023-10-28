@@ -24,7 +24,7 @@ class Student extends Model
         'programme_of_study',
         'residence',
         'house',
-        'jhs_attended',
+        'last_school_attended',
     ];
 
     protected $casts = [

@@ -73,8 +73,8 @@
                           <td>{{ $student->phone_no }}</td>
                           <td>{{ $student->student->programme_of_study }}</td>
                           <td>
-                            <a href="{{ url('admin/admin/edit/'.$admin->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
-                            <a href="{{ url('admin/admin/delete/'.$admin->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
+                            <a href="{{ url('admin/students/edit/'.$admin->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
+                            <a href="{{ url('admin/students/delete/'.$admin->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
                           </td>
                         </tr>
                       @endforeach
@@ -276,10 +276,10 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="jhs_attended" class="col-sm-3 col-form-label">JHS Attended <span class="text-danger">*</span></label>
+                    <label for="last_school_attended" class="col-sm-3 col-form-label">Last School Attended <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" name="jhs_attended">
-                      @error('jhs_attended')
+                      <input type="text" class="form-control" name="last_school_attended" placeholder="Last school">
+                      @error('last_school_attended')
                         <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div>
@@ -406,7 +406,7 @@
   @if ($errors->has('email') || $errors->has('first_name') || $errors->has('last_name')|| $errors->has('address')|| $errors->has('position')||!empty(session('error')))
       <script type="text/javascript">
           setTimeout(() => {
-          $('#newAdminModal').modal('show');
+          $('#newStudentModal').modal('show');
           }, 500);
       </script>
   @endif

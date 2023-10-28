@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->unsignedBigInteger('admin_id')->nullable();
-            $table->unsignedBigInteger('classes_id')->nullable();
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('admin_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('classes_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->date('date_of_birth');
             $table->date('admission_date');
             $table->string('admission_number');
@@ -24,12 +24,8 @@ return new class extends Migration
             $table->string('roll_number');
             $table->string('programme_of_study');
             $table->string('residence');//Day or Boarder
-            $table->string('house');
-            $table->string('jhs_attended');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('parent_id')->references('id')->on('parents')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('admin_id')->references('id')->on('admins')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('classes_id')->references('id')->on('classes')->onUpdate('cascade')->onDelete('set null');
+            $table->string('house');//House of Affiliation
+            $table->string('last_school_attended');
             $table->timestamps();
         });
     }

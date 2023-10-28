@@ -14,15 +14,11 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('created_by')->index();
-            $table->unsignedBigInteger('school_id');
-            $table->unsignedBigInteger('programme_id')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users','id')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('school_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('programme_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(true);
             $table->boolean('is_deleted')->default(false);
-            
-            $table->foreign('created_by')->references('id')->on('users')->OnUpdate('cascade')->OnDelete('set null');
-            $table->foreign('school_id')->references('id')->on('schools')->OnUpdate('cascade')->OnDelete('cascade');
-            $table->foreign('programme_id')->references('id')->on('programmes')->OnUpdate('cascade')->OnDelete('cascade');
             $table->timestamps();
         });
     }

@@ -219,6 +219,31 @@
                 </ul>
               @endif
             </li>
+            <li class="nav-item @if (Request::segment(3)=="view_programme")
+            menu-is-opening menu-open
+            @endif">
+              <a href="{{ url('admin/programmes/list') }}" class="nav-link @if (Request::segment(2)=="programmes") active @endif">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Programmes
+                  @if (Request::segment(3)=="view_programme")
+                  <i class="right fas fa-angle-left"></i>
+                  @endif
+                </p>
+              </a>
+              @if (Request::segment(3)=="view_programme")
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="" class="nav-link @if (Request::segment(3)=="view_programme") active @endif">
+                      <i class="far fa-circle nav-icon"></i>
+                      @foreach ($programmes as $programme)
+                        <p>{{ $programme->name }}</p>
+                      @endforeach
+                    </a>
+                  </li>
+                </ul>
+              @endif
+            </li>
             <li class="nav-item @if (Request::segment(3)=="view_class")
             menu-is-opening menu-open
             @endif">

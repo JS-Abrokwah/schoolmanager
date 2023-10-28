@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('admin_id')->nullable();
-            $table->unsignedBigInteger('classes_id')->nullable();
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('admin_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('classes_id')->nullable()->constrained('classes','id')->onUpdate('cascade')->onDelete('set null');
             $table->string('staff_id');
             $table->string('position');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('admin_id')->references('id')->on('admins')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('classes_id')->references('id')->on('classes')->onUpdate('cascade')->onDelete('set null');
             $table->timestamps();
         });
     }

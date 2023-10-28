@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('student_subject', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('student_id')->references('id')->on('students')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('active')->default(1);
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\SubjectController;
@@ -48,6 +49,14 @@ Route::middleware(['admin'])->group(function () {
     Route::post('admin/admin/edit', [AdminController::class, 'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class, 'warnDelete']);
     Route::post('admin/admin/delete', [AdminController::class, 'destroy']);
+
+    // Programmes url
+    Route::get('admin/programmes/list', [ProgrammeController::class, 'list']);
+    Route::post('admin/programmes/add-programme', [ProgrammeController::class, 'addNewProgramme']);
+    Route::get('admin/programmes/edit/{id}', [ProgrammeController::class, 'edit']);
+    Route::post('admin/programmes/edit', [ProgrammeController::class, 'update']);
+    Route::get('admin/programmes/delete/{id}', [ProgrammeController::class, 'warnDelete']);
+    Route::post('admin/programmes/delete', [ProgrammeController::class, 'destroy']);
 
     // Class url
     Route::get('admin/class/list', [ClassesController::class, 'list']);

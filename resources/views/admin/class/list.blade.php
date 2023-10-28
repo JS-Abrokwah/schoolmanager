@@ -54,6 +54,8 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Status</th>
+                        <th>No. Students</th>
+                        <th>Programme</th>
                         <th>Created By</th>
                         <th>Created Date</th>
                         <th>Action</th>
@@ -65,7 +67,10 @@
                           <td>{{ $class->id }}</td>
                           <td>{{ $class->name }}</td>
                           <td class="{{ ($class->status == 1)?"text-success":"text-danger" }}">{{ ($class->status == 1)?"Active":"Inactive" }}</td>
-                          <td>{{ $class->creator_first_name.' '.$class->creator_last_name }}</td>
+                          <td>{{ $class->students->count() }}</td>
+                          {{-- <td></td> --}}
+                          <td>{{ $class->programme->name }}</td>
+                          <td>{{ $class->admin->first_name.' '.$class->admin->last_name }}</td>
                           <td>{{ date('d-m-Y H:i A', strtotime($class->created_at)) }}</td>
                           <td>
                             <a href="{{ url('admin/class/view_class/'.$class->id) }}" class="btn btn-sm btn-info m-1 px-3"><i class="fas fa-eye"></i></a>
@@ -127,6 +132,24 @@
                             <option value="0">Inactive</option>
                         </select>
                         @error('status')
+                          <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="programme" class="col-sm-3 col-form-label">Programme</label>
+                      <div class="col-sm-9">
+                        @if (!empty($programmes) && $programmes->count() > 0)
+                          <select class="form-control" name="programme">
+                            <option value="" selected>Select Programme</option>
+                              @foreach ($programmes as $programme)
+                                <option value="{{ $programme->id }}">{{ $programme->name }}</option>
+                              @endforeach
+                          </select>
+                        @else
+                          <p>Nothing to select from... <a href="{{ url('admin/programmes/list') }}">Click here</a> to add programmes</p>
+                        @endif
+                        @error('programme')
                           <span class="text-danger">{{ $message }}</span>
                         @enderror
                       </div>

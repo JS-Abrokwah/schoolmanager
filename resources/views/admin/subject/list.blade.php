@@ -64,7 +64,7 @@
                       @foreach ($subjectRecords as $subject)
                         <tr>
                           <td>{{ $subject->id }}</td>
-                          <td>{{ $subject->name }}</td>
+                          <td>{{ $subject->name }} ( <span class="text-info">{{ $subject->category }}</span> )</td>
                           <td>{{ $subject->type }}</td>
                           <td class="{{ ($subject->status == 1)?"text-success":"text-danger" }}">{{ ($subject->status == 1)?"Active":"Inactive" }}</td>
                           <td>{{ $subject->creator_first_name.' '.$subject->creator_last_name }}</td>

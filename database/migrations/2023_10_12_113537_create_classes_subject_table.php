@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('classes_subject', function (Blueprint $table) {
             $table->id();
             
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('classes_id');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('classes_id')->references('id')->on('classes')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('classes_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             
             $table->boolean('active')->default(1);
 

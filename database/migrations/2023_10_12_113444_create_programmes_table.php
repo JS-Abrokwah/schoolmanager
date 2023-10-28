@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('programmes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_id');
+            $table->foreignId('school_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->string('name');
             $table->string('certification')->default('WASSCE'); //WASSCE, NVTI, HND, Diploma, etc
             $table->string('description');
             $table->string('specialization'); // Science, Business, Vocational, Technical, IT, Arts,etc
             $table->boolean('status'); // 1 for active, 0 for inactive
-            $table->foreign('school_id')->references('id')->on('schools')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

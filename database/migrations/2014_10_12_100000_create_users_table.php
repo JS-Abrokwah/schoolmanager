@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_id');
+            $table->foreignId('school_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->boolean('is_deleted')->default(false);
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('school_id')->references('id')->on('schools')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

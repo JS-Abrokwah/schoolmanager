@@ -28,7 +28,7 @@ class Teacher extends Model
 
     public function classes() {
         //Assigned as a class teacher
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Classes::class);
     }
 
     public function subjects() {

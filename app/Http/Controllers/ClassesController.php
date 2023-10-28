@@ -4,28 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
-use App\Models\School;
 use App\Models\Subject;
+use App\Models\Programme;
 use Auth;
 
 class ClassesController extends Controller
 {
     public function list(){
         $classRecords=Classes::classList();
-        return view('admin.class.list', ['page_title'=>"Class List",'classRecords'=>$classRecords]);
+        $programmes =  Programme::allProgrammes();
+        return view('admin.class.list', ['page_title'=>"Class List",'classRecords'=>$classRecords,"programmes"=>$programmes]);
     }
     public function addNewClass(Request $request){
         $request->validate([
             'name'=>'required',
             'status'=>'required',
+            'programme'=>'required',
         ]);
+        // dd($request->all());
         $class = new Classes();
-        $schoolId=Auth::user()->school->id;
+        $school=Auth::user()->school;
 
         $class->name = $request->name;
         $class->created_by = $request->created_by;
         $class->status = $request->status;
-        School::find($schoolId)->classes()->save($class);
+        $class->programme()->associate($request->programme);
+        $school->classes()->save($class);
         return redirect('admin/class/list')->with('success', "Class ($request->name) successfully added");
     }
 
