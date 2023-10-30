@@ -28,6 +28,6 @@ class Parents extends Model
     }
 
     public function students() {
-        return $this->hasMany(Student::class)->withTrashed();
+        return $this->hasMany(Student::class);
     }
 }

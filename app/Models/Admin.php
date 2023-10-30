@@ -24,13 +24,13 @@ class Admin extends Model
     }
 
     public function teachers(){
-        return $this->hasMany(Teacher::class)->withTrashed();
+        return $this->hasMany(Teacher::class);
     }
     public function parents(){
-        return $this->hasMany(Parents::class)->withTrashed();
+        return $this->hasMany(Parents::class);
     }
     public function students(){
-        return $this->hasMany(Student::class)->withTrashed();
+        return $this->hasMany(Student::class);
     }
 
 }

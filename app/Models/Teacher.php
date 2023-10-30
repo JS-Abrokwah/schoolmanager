@@ -37,6 +37,6 @@ class Teacher extends Model
         return $this->belongsToMany(Subject::class,'subject_teacher','teacher_id','subject_id')
         ->using(SubjectTeacher::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 }

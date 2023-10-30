@@ -39,7 +39,7 @@ class ClassesController extends Controller
         if(!empty($class)){
             return redirect()->back()->with(['class'=>$class]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -51,7 +51,7 @@ class ClassesController extends Controller
             $class->save();
             return redirect()->back()->with(['success'=>"Class update successful"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     } 
     
@@ -60,7 +60,7 @@ class ClassesController extends Controller
         if(!empty($class)){
             return redirect()->back()->with(['warnClass'=>$class]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
         
     } 
@@ -71,7 +71,7 @@ class ClassesController extends Controller
             $class->delete();
             return redirect()->back()->with(['success'=>"Class ($class->name) successfully deleted"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 

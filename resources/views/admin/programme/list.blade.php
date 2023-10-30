@@ -176,13 +176,13 @@
       </div>
     </div>
 
-    {{-- Edit Admin Modal --}}
-  @if (!empty(session('editAdmin')))
-    <div class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    {{-- Edit Programme Modal --}}
+  @if (!empty(session('programme')))
+    <div class="modal fade" id="editProgrammeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header bg-info">
-            <p class="font-weight-bold h5" id="exampleModalLongTitle">Edit Admin</p>
+            <p class="font-weight-bold h5" id="exampleModalLongTitle">Edit Programme</p>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -194,25 +194,40 @@
 
               <div class="row">
                 <div class="col-md-12">
-                  <form action="{{ url('admin/admin/edit') }}" method="post" class="form-horizontal" id="newAdmin">
+                  <form action="{{ url('admin/programmes/edit') }}" method="post" class="form-horizontal" >
                     @csrf
-                      <input type="text" name="id" value="{{ session('editAdmin')->id }}" hidden>
+                      <input type="text" name="id" value="{{ session('programme')->id }}" hidden>
                       <div class="form-group row">
-                        <label for="first_name" class="col-sm-3 col-form-label">First Name</label>
+                        <label for="name" class="col-sm-3 col-form-label">Name</label>
                         <div class="col-sm-9">
-                          <input type="text" required class="form-control" name="upfirst_name" value="{{ session('editAdmin')->first_name }}" placeholder="First Name">
+                          <input type="text" required class="form-control" name="name" readonly value="{{ session('programme')->name }}" >
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="last_name" class="col-sm-3 col-form-label">Last Name</label>
+                        <label for="description" class="col-sm-3 col-form-label">Description</label>
                         <div class="col-sm-9">
-                          <input type="text" required class="form-control" name="uplast_name" value="{{ session('editAdmin')->last_name }}" placeholder="Last Name">
+                          <input type="text" required class="form-control" name="description" value="{{ session('programme')->description }}" >
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="email" class="col-sm-3 col-form-label">Email</label>
+                        <label for="certification" class="col-sm-3 col-form-label">Certification</label>
                         <div class="col-sm-9">
-                          <input type="email" required class="form-control" name="upemail" value="{{ session('editAdmin')->email }}" placeholder="Admin's email">
+                          <input type="text" required class="form-control" name="certification" value="{{ session('programme')->certification }}" >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="specialization" class="col-sm-3 col-form-label">Specialization</label>
+                        <div class="col-sm-9">
+                          <input type="text" required class="form-control" name="specialization" value="{{ session('programme')->specialization }}" >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="status" class="col-sm-3 col-form-label text-center">Status</label>
+                        <div class="col-sm-9">
+                          <select class="form-control form-control-sm" required name="status">
+                            <option value="1" {{ session('programme')->status == 1 ? 'selected':'' }} >Active</option>
+                            <option value="0" {{ session('programme')->status == 0 ? 'selected':'' }}>Inactive</option>
+                          </select>
                         </div>
                       </div>
                       <div class="row">
@@ -220,7 +235,7 @@
                           <button type="button" class="btn btn-sm btn-secondary px-3 rounded-pill" data-dismiss="modal">Cancel</button>
                         </div>
                         <div class="col-6 text-center">
-                          <button type="submit" id="submitBtn" class="btn btn-sm btn-success px-3 rounded-pill">Save Changes</button>
+                          <button type="submit" class="btn btn-sm btn-success px-3 rounded-pill">Save Changes</button>
                         </div>
                       </div>
                   </form>
@@ -243,17 +258,17 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          @if (!empty(session('warnAdmin'))) 
+          @if (!empty(session('warnProgramme'))) 
             <div class="modal-body">
               <div class="my-3 text-center">
                 <p class="h5 ">
-                  Are you sure you want to remove {{ session('warnAdmin')->first_name.' '.session('warnAdmin')->last_name}}?
+                  Are you sure you want to remove {{ session('warnProgramme')->name}}?
                 </p>
                 <p class="text-danger">This action cannot be undone!</p>
               </div>
-                <form action="{{ url('admin/admin/delete/') }}" method="post">
+                <form action="{{ url('admin/programmes/delete/') }}" method="post">
                   @csrf
-                  <input type="text" name="id" value="{{ session('warnAdmin')->id }}" id="adminIDField" hidden>
+                  <input type="text" name="id" value="{{ session('warnProgramme')->id }}" id="adminIDField" hidden>
                   <div class="row">
                     <div class="col-6 text-center">
                       <button type="button" class="btn btn-sm btn-secondary px-3 rounded-pill" data-dismiss="modal">Cancel</button>
@@ -280,7 +295,7 @@
       </script>
   @endif
 
-  @if (!empty(session('warnAdmin')))
+  @if (!empty(session('warnProgramme')))
     <script type="text/javascript">
       setTimeout(() => {
       $('#warnDeleteModal').modal('show');
@@ -288,10 +303,10 @@
     </script>
   @endif
 
-  @if (!empty(session('editAdmin')))
+  @if (!empty(session('programme')))
     <script type="text/javascript">
       setTimeout(() => {
-      $('#editAdminModal').modal('show');
+      $('#editProgrammeModal').modal('show');
       }, 500);
     </script>
   @endif

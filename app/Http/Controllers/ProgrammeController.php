@@ -36,15 +36,44 @@ class ProgrammeController extends Controller
         return redirect()->back()->with('success',"New Programme successfully created");
     }
     public function edit($id) {
-        
+        $programme = Programme::find($id);
+        if(!empty($programme)){
+            return redirect()->back()->with(['programme'=>$programme]);
+        }else{
+            abort(404);
+        }
     }
     public function update(Request $request) {
+        $programme = Programme::find($request->id);
+        if(!empty($programme)){
+            $programme->name = $request->name;
+            $programme->certification = $request->certification;
+            $programme->description = $request->description;
+            $programme->specialization = $request->specialization;
+            $programme->status = $request->status;
+            $programme -> save();
+            return redirect()->back()->with('success',"Programme successfully successfully");
+        }else{
+            abort(404);
+        }
         
     }
     public function warnDelete($id) {
+        $programme=Programme::find($id);
+        if(!empty($programme)){
+            return redirect()->back()->with(['warnProgramme'=>$programme]);
+        }else{
+            abort(404);
+        }
         
     }
     public function destroy(Request $request) {
-        
+        $programme = Programme::find($request->id);
+        if (!empty($programme)){
+            $programme->delete();
+            return redirect()->back()->with(['success'=>"($programme->name) successfully deleted"]);
+        }else{
+            abort(404);
+        }
     }
 }

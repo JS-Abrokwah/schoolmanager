@@ -31,15 +31,15 @@ class Programme extends Model
         return $this->belongsToMany(Subject::class,'programme_subject','programme_id','subject_id')
         ->using(ProgrammeSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     public function classes() {
-        return $this->hasMany(Classes::class)->withTrashed();
+        return $this->hasMany(Classes::class);
     }
 
     public function students(){
-        return $this->hasMany(Student::class)->withTrashed();
+        return $this->hasMany(Student::class);
     }
 
     public function school(){

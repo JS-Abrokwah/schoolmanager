@@ -57,6 +57,6 @@ class Student extends Model
         return $this->belongsToMany(Subject::class,'student_subject','student_id','subject_id')
         ->using(StudentSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();  
+        ->withTimestamps();  
     }
 }

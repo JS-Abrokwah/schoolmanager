@@ -29,7 +29,7 @@ class SubjectController extends Controller
         if(!empty($subject)){
             return redirect()->back()->with(['subject'=>$subject]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -42,7 +42,7 @@ class SubjectController extends Controller
             $subject->save();
             return redirect()->back()->with(['success'=>"Subject update successful"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -51,7 +51,7 @@ class SubjectController extends Controller
         if(!empty($subject)){
             return redirect()->back()->with(['warnSubject'=>$subject]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -62,7 +62,7 @@ class SubjectController extends Controller
             $subject->delete();
             return redirect()->back()->with(['success'=>"($subject->name) successfully deleted"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 

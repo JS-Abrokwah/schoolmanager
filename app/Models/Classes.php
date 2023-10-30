@@ -30,18 +30,18 @@ class Classes extends Model
     ];
 
     public function admin(){
-        return $this->belongsTo(User::class,'id');
+        return $this->belongsTo(User::class,'created_by');
     }
 
     public function students(){
-        return $this->hasMany(Student::class)->withTrashed();
+        return $this->hasMany(Student::class);
     }
 
     public function subjects() {
         return $this->belongsToMany(Subject::class,'classes_subject','classes_id','subject_id')
         ->using(ClassesSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     public function school(){

@@ -61,20 +61,20 @@ class User extends Authenticatable
     }
 
     public function classes(){
-        return $this->hasMany(Classes::class,'created_by')->withTrashed();
+        return $this->hasMany(Classes::class,'created_by');
     }
 
     public function admin() {
-            return $this->hasOne(Admin::class)->withTrashed();  
+            return $this->hasOne(Admin::class);  
     }
     public function parents() {
-        return $this->hasOne(Parents::class)->withTrashed();
+        return $this->hasOne(Parents::class);
     }
     public function teacher() {
-        return $this->hasOne(Teacher::class)->withTrashed();
+        return $this->hasOne(Teacher::class);
     }
     public function student() {
-        return $this->hasOne(Student::class)->withTrashed();
+        return $this->hasOne(Student::class);
     }
 // End Relationships block
 

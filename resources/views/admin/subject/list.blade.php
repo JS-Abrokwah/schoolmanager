@@ -202,7 +202,7 @@
                       <div class="form-group row">
                         <label for="name" class="col-sm-3 col-form-label">Class Name</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="name" value="{{ session('subject')->name }}" placeholder="Class Name" required>
+                          <input type="text" class="form-control" name="name" readonly value="{{ session('subject')->name }}" placeholder="Class Name" required>
                         </div>
                       </div>
                       <input type="text" name="id" value="{{ session('subject')->id }}" hidden>

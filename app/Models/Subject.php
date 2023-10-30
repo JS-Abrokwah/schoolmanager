@@ -31,7 +31,7 @@ class Subject extends Model
         return $this->belongsToMany(Classes::class,'classes_subject','subject_id','classes_id')
         ->using(ClassesSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     public function teachers() {
@@ -39,21 +39,21 @@ class Subject extends Model
         return $this->belongsToMany(Teacher::class,'subject_teacher','subject_id','teacher_id')
         ->using(SubjectTeacher::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     public function programme(){
         return $this->belongsToMany(Programme::class,'programme_subject','subject_id','programme_id')
         ->using(ProgrammeSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     public function students(){
         return $this->belongsToMany(Student::class,'student_subject','subject_id','student_id')
         ->using(StudentSubject::class)
         ->withPivot('active')
-        ->withTimestamps()->withTrashed();
+        ->withTimestamps();
     }
 
     static public function subjectList(){
