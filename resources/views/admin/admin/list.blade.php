@@ -65,16 +65,16 @@
                     <tbody class="border-bottom border-muted">
                       @foreach ($adminsRecord as $admin)
                         <tr>
-                          <td>{{ $admin->id }}</td>
-                          <td>{{ $admin->first_name }}</td>
-                          <td>{{ $admin->last_name }}</td>
-                          <td>{{ $admin->sex }}</td>
-                          <td>{{ $admin->email }}</td>
-                          <td>{{ $admin->phone_no }}</td>
+                          <td>{{ $admin->user->id }}</td>
+                          <td>{{ $admin->user->first_name }}</td>
+                          <td>{{ $admin->user->last_name }}</td>
+                          <td>{{ $admin->user->sex }}</td>
+                          <td>{{ $admin->user->email }}</td>
+                          <td>{{ $admin->user->phone_no }}</td>
                           <td>{{ date('d-m-Y H:i A', strtotime($admin->created_at)) }}</td>
                           <td>
-                            <a href="{{ url('admin/admin/edit/'.$admin->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
-                            <a href="{{ url('admin/admin/delete/'.$admin->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
+                            <a href="{{ url('admin/admin/edit/'.$admin->user->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
+                            <a href="{{ url('admin/admin/delete/'.$admin->user->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
                           </td>
                         </tr>
                       @endforeach

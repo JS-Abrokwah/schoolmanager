@@ -37,10 +37,13 @@
 
 <div class="row mt-3 mx-0">
   <div class="col-md-3"></div>
-  <div class="col-md-6 text-center bg-info p-5 rounded">
-    <h1>Broken Link | 503</h1>
-    <h5>Sorry, but service is temporally unavailable</h5>
-    <p class="font-italic mt-3">Server may be down for maintenance. Retry later...</p>
+  <div class="col-md-6 text-center bg-secondary p-5 rounded">
+    <h1>Request Timeout | 408</h1>
+    <p class="font-italic h4 mt-3" style="text-decoration: underline">Fix suggestions</p>
+    <ul class="text-center mx-3"  style="list-style: none;">
+        <li>1. Check your internet connectivity</li>
+        <li>2. Check your proxy settings</li>
+    </ul>
   </div>
   <div class="col-md-3"></div>
 

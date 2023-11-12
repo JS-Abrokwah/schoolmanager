@@ -37,10 +37,9 @@
 
 <div class="row mt-3 mx-0">
   <div class="col-md-3"></div>
-  <div class="col-md-6 text-center bg-info p-5 rounded">
-    <h1>Broken Link | 503</h1>
-    <h5>Sorry, but service is temporally unavailable</h5>
-    <p class="font-italic mt-3">Server may be down for maintenance. Retry later...</p>
+  <div class="col-md-6 text-center bg-dark p-5 rounded">
+    <h1>Server Error | 500</h1>
+    <p class="font-italic mt-3">Something bad occured in the server...</p>
   </div>
   <div class="col-md-3"></div>
 

@@ -14,7 +14,7 @@ use Auth;
 class AdminController extends Controller
 {
     public function list(){
-        $adminsList=User::adminList();
+        $adminsList=Admin::adminList();
         return view('admin.admin.list',['page_title'=>"Admin List",'adminsRecord'=>$adminsList]);
     }
 
@@ -53,8 +53,7 @@ class AdminController extends Controller
             Mail::to($user->email)->send(new NewAccountMail($user));
             return redirect()->back()->with('success',"New Admin successfully created");
         }else{
-            // return redirect()->back()->with('error',"Oops! Couldn't add new Admin. Check your internet connection and try again");
-            abort(503);
+            abort(408);
         }
     }
 

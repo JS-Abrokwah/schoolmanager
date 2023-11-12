@@ -77,6 +77,7 @@ Route::middleware(['admin'])->group(function () {
      Route::post('admin/students/edit', [StudentController::class, 'update']);
      Route::get('admin/students/delete/{id}', [StudentController::class, 'warnDelete']);
      Route::post('admin/students/delete', [StudentController::class, 'destroy']);
+    Route::get('admin/students/view_student/{id}', [StudentController::class, 'studentDetail']);
      
      // Teachers url
      Route::get('admin/teachers/list', [TeacherController::class, 'list']);

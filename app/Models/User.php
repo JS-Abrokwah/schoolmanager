@@ -87,72 +87,44 @@ class User extends Authenticatable
         return User::where('remember_token','=',$remember_token)->first();
     }
     
-    public static function adminList(){
-        // This also allow search
-        $result = User::where('user_type','=','Admin');
-                    if(!empty(Request::get('search'))){
-                        $result=$result->where('first_name','like','%'.Request::get('search').'%')
-                                        ->where('email','!=',Auth::user()->email)
+    // public static function adminList(){
+    //     // This also allow search
+    //     $result = User::where('user_type','=','Admin');
+    //                 if(!empty(Request::get('search'))){
+    //                     $result=$result->where('first_name','like','%'.Request::get('search').'%')
+    //                                     ->where('email','!=',Auth::user()->email)
 
-                                        ->orWhere(function($query){
-                                            $query->where('last_name','like','%'.Request::get('search').'%')
-                                        ->where('email','!=',Auth::user()->email)
-                                            ;
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('email','like','%'.Request::get('search').'%')
-                                            ->where('email','!=',Auth::user()->email)
-                                            ;
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('sex','like','%'.Request::get('search').'%')
-                                            ->where('email','!=',Auth::user()->email)
-                                            ;
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('phone_no','like','%'.Request::get('search').'%')
-                                            ->where('email','!=',Auth::user()->email)
-                                            ;
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('id','=',Request::get('search'))
-                                            ->where('email','!=',Auth::user()->email)
-                                            ;
-                                        });
-                    }
-        $result=$result->where('user_type','=','Admin')->where('school_id','=', Auth::user()->school->id)
-                    ->where('email','!=',Auth::user()->email)
-                    ->orderBy('id','desc')
-                    ->paginate(10);
-        return $result;
-    }
+    //                                     ->orWhere(function($query){
+    //                                         $query->where('last_name','like','%'.Request::get('search').'%')
+    //                                     ->where('email','!=',Auth::user()->email)
+    //                                         ;
+    //                                     })
+    //                                     ->orWhere(function($query){
+    //                                         $query->where('email','like','%'.Request::get('search').'%')
+    //                                         ->where('email','!=',Auth::user()->email)
+    //                                         ;
+    //                                     })
+    //                                     ->orWhere(function($query){
+    //                                         $query->where('sex','like','%'.Request::get('search').'%')
+    //                                         ->where('email','!=',Auth::user()->email)
+    //                                         ;
+    //                                     })
+    //                                     ->orWhere(function($query){
+    //                                         $query->where('phone_no','like','%'.Request::get('search').'%')
+    //                                         ->where('email','!=',Auth::user()->email)
+    //                                         ;
+    //                                     })
+    //                                     ->orWhere(function($query){
+    //                                         $query->where('id','=',Request::get('search'))
+    //                                         ->where('email','!=',Auth::user()->email)
+    //                                         ;
+    //                                     });
+    //                 }
+    //     $result=$result->where('user_type','=','Admin')->where('school_id','=', Auth::user()->school->id)
+    //                 ->where('email','!=',Auth::user()->email)
+    //                 ->orderBy('id','desc')
+    //                 ->paginate(10);
+    //     return $result;
+    // }
 
-    public static function studentsList() {
-        $result = User::whereHas('student',function ($query){
-            return $query->where('school_id','=',Auth::user()->school->id);
-        })->where('user_type','=','Student');
-                    if(!empty(Request::get('search'))){
-                        $result=$result->where('first_name','like','%'.Request::get('search').'%')
-
-                                        ->orWhere(function($query){
-                                            $query->where('last_name','like','%'.Request::get('search').'%');
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('email','like','%'.Request::get('search').'%');
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('sex','like','%'.Request::get('search').'%');
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('phone_no','like','%'.Request::get('search').'%');
-                                        })
-                                        ->orWhere(function($query){
-                                            $query->where('id','=',Request::get('search'));
-                                        });
-                    }
-        $result=$result->where('user_type','=','Student')->where('school_id','=', Auth::user()->school->id)
-                    ->orderBy('id','desc')
-                    ->paginate(10);
-        return $result;
-    }
 }
