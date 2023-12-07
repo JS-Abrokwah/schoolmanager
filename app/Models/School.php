@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Programme;
 use App\Models\Classes;
 
 class School extends Model
@@ -27,5 +28,9 @@ class School extends Model
 
     public function classes(){
         return $this->hasMany(Classes::class);
+    }
+
+    public function programmes(){
+        return $this->hasMany(Programme::class);
     }
 }

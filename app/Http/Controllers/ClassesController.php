@@ -4,28 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
-use App\Models\School;
 use App\Models\Subject;
+use App\Models\Programme;
 use Auth;
 
 class ClassesController extends Controller
 {
     public function list(){
         $classRecords=Classes::classList();
-        return view('admin.class.list', ['page_title'=>"Class List",'classRecords'=>$classRecords]);
+        $programmes =  Programme::allProgrammes();
+        return view('admin.class.list', ['page_title'=>"Class List",'classRecords'=>$classRecords,"programmes"=>$programmes]);
     }
     public function addNewClass(Request $request){
         $request->validate([
             'name'=>'required',
             'status'=>'required',
+            'programme'=>'required',
         ]);
+        // dd($request->all());
         $class = new Classes();
-        $schoolId=Auth::user()->school->id;
+        $school=Auth::user()->school;
 
         $class->name = $request->name;
         $class->created_by = $request->created_by;
         $class->status = $request->status;
-        School::find($schoolId)->classes()->save($class);
+        $class->programme()->associate($request->programme);
+        $school->classes()->save($class);
         return redirect('admin/class/list')->with('success', "Class ($request->name) successfully added");
     }
 
@@ -35,7 +39,7 @@ class ClassesController extends Controller
         if(!empty($class)){
             return redirect()->back()->with(['class'=>$class]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 
@@ -47,7 +51,7 @@ class ClassesController extends Controller
             $class->save();
             return redirect()->back()->with(['success'=>"Class update successful"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     } 
     
@@ -56,7 +60,7 @@ class ClassesController extends Controller
         if(!empty($class)){
             return redirect()->back()->with(['warnClass'=>$class]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
         
     } 
@@ -64,11 +68,10 @@ class ClassesController extends Controller
     public function destroy(Request $request){
         $class=Classes::find($request->id);
         if(!empty($class)){
-            $class->is_deleted = true;
-            $class->save();
+            $class->delete();
             return redirect()->back()->with(['success'=>"Class ($class->name) successfully deleted"]);
         }else{
-            return redirect()->back()->with(['error'=>"404! Resource Not Found"]);
+            abort(404);
         }
     }
 

@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
+use App\Models\Student;
 use App\Models\School;
 use App\Models\Subject;
 use App\Models\Programme;
@@ -14,7 +16,7 @@ use Auth;
 
 class Classes extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -28,7 +30,11 @@ class Classes extends Model
     ];
 
     public function admin(){
-        return $this->belongsTo(User::class,'id');
+        return $this->belongsTo(User::class,'created_by');
+    }
+
+    public function students(){
+        return $this->hasMany(Student::class);
     }
 
     public function subjects() {
@@ -46,27 +52,25 @@ class Classes extends Model
         return $this->belongsTo(Programme::class);
     }
     static public function classList(){
-        $result = Classes::select('classes.*','users.first_name as creator_first_name','users.last_name as creator_last_name')
-                            ->where('classes.is_deleted','=',false)
-                            ->join('users','users.id','classes.created_by');
+        $result = Classes::whereHas('school',function ($query){
+            $query->where('schools.id', '=',Auth::user()->school->id);
+        });
 
                             if(!empty(Request::get('search'))){
                                 $result=$result->where('classes.name','like','%'.Request::get('search').'%')
-                                                ->where('classes.is_deleted','=',false)
                                                 ->orWhere(function($query){
-                                                    $query->where('classes.id','=',Request::get('search'))
-                                                    ->where('classes.is_deleted','=',false);
+                                                    $query->where('classes.id','=',Request::get('search'));
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('classes.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null)
-                                                    ->where('classes.is_deleted','=',false);
+                                                    $query->where('classes.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null);
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('classes.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null)
-                                                    ->where('classes.is_deleted','=',false);
+                                                    $query->where('classes.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null);
                                                 });
                             }
-                        $result=$result->orderBy('classes.id','desc')->paginate(10);
+                        $result=$result->whereHas('school',function ($query){
+                            $query->where('schools.id', '=',Auth::user()->school->id);
+                        })->orderBy('classes.id','desc')->paginate(10);
         
         return $result;   
     }

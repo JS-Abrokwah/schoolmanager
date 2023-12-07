@@ -14,7 +14,7 @@ use Auth;
 class AdminController extends Controller
 {
     public function list(){
-        $adminsList=User::adminList();
+        $adminsList=Admin::adminList();
         return view('admin.admin.list',['page_title'=>"Admin List",'adminsRecord'=>$adminsList]);
     }
 
@@ -53,17 +53,14 @@ class AdminController extends Controller
             Mail::to($user->email)->send(new NewAccountMail($user));
             return redirect()->back()->with('success',"New Admin successfully created");
         }else{
-            // return redirect()->back()->with('error',"Oops! Couldn't add new Admin. Check your internet connection and try again");
-            abort(503);
+            abort(408);
         }
     }
 
     public function destroy(Request $request){
         $user=User::where('user_type','=','Admin')->where('id','!=',Auth::user()->id)->find($request->id);
         if(!empty($user)){
-            $user->is_deleted=true;
-            $user->email = 'deletedaccount';
-            $user->save();
+            $user->delete();
             return redirect()->back()->with(['success'=>"Admin ($user->first_name $user->last_name) successfully deleted"]);
         }else{
             abort(404);

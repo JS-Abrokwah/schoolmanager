@@ -56,7 +56,7 @@
                         <th>Last Name</th>
                         <th>Sex</th>
                         <th>Email</th>
-                        <th>Phone Number</th>
+                        <th>Class</th>
                         <th>Programme</th>
                         <th>Action</th>
                       </tr>
@@ -64,17 +64,17 @@
                     <tbody class="border-bottom border-muted">
                       @foreach ($studentsRecord as $student)
                         <tr>
-                          <td>{{ $student->student->admission_number }}</td>
-                          <td>{{ $student->student->index_number }}</td>
-                          <td>{{ $student->first_name }}</td>
-                          <td>{{ $student->last_name }}</td>
-                          <td>{{ $student->sex }}</td>
-                          <td>{{ $student->email }}</td>
-                          <td>{{ $student->phone_no }}</td>
-                          <td>{{ $student->student->programme_of_study }}</td>
+                          <td> <a href="{{ url('admin/students/view_student/'.$student->id) }}">{{ $student->admission_number }}</a></td>
+                          <td>{{ $student->index_number }}</td>
+                          <td>{{ $student->user->first_name }}</td>
+                          <td>{{ $student->user->last_name }}</td>
+                          <td>{{ $student->user->sex }}</td>
+                          <td>{{ $student->user->email }}</td>
+                          <td>{{ $student->classes->name ?? 'Not Assigned'}}</td>
+                          <td>{{ $student->programme->name ?? 'Not Assigned'}}</td>
                           <td>
-                            <a href="{{ url('admin/admin/edit/'.$admin->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
-                            <a href="{{ url('admin/admin/delete/'.$admin->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
+                            <a href="{{ url('admin/students/edit/'.$student->id) }}" class="btn btn-sm btn-primary m-1 px-3"><i class="fas fa-pen"></i></a>
+                            <a href="{{ url('admin/students/delete/'.$student->id)}}" class="btn btn-sm btn-danger m-1 px-3"><i class="fas fa-trash"></i></a >
                           </td>
                         </tr>
                       @endforeach
@@ -134,7 +134,7 @@
                     <label for="date_of_birth" class="col-sm-3 col-form-label">Date of Birth <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
                       <input type="date" class="form-control" name="date_of_birth">
-                      @error('date_ofBirth')
+                      @error('date_of_birth')
                         <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div>
@@ -192,15 +192,6 @@
                 {{-- Right column of modal --}}
                 <div class="col-md-6">
                   <div class="form-group row">
-                    <label for="programme_of_study" class="col-sm-3 col-form-label">Programme <span class="text-danger">*</span></label>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" name="programme_of_study" placeholder="Eg. General Science">
-                      @error('programme_of_study')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="form-group row">
                     <label for="admission_number" class="col-sm-3 col-form-label">Admission No. <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control" name="admission_number">
@@ -237,19 +228,6 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="class" class="col-sm-3 col-form-label text-center">Class <span class="text-danger">*</span></label>
-                    <div class="col-sm-9">
-                      <select class="form-control form-control-sm " name="class">
-                        <option value="" selected>Select</option>
-                        <option value="Male" >Male</option>
-                        <option value="Female" >Female</option>
-                      </select>
-                      @error('class')
-                        <span class="text-danger">{{ $message }}</span>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="form-group row">
                     <label for="residence" class="col-sm-3 col-form-label text-center">Residence <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
                       <select class="form-control form-control-sm " name="residence">
@@ -276,10 +254,10 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="jhs_attended" class="col-sm-3 col-form-label">JHS Attended <span class="text-danger">*</span></label>
+                    <label for="last_school_attended" class="col-sm-3 col-form-label">Last School Attended <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" name="jhs_attended">
-                      @error('jhs_attended')
+                      <input type="text" class="form-control" name="last_school_attended" placeholder="Last school">
+                      @error('last_school_attended')
                         <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div>
@@ -403,10 +381,10 @@
  <!-- /.content-wrapper -->
 
 
-  @if ($errors->has('email') || $errors->has('first_name') || $errors->has('last_name')|| $errors->has('address')|| $errors->has('position')||!empty(session('error')))
+  @if ( $errors->has('first_name') || $errors->has('last_name')|| $errors->has('email') ||$errors->has('date_of_birth') || $errors->has('phone_no') || $errors->has('sex') || $errors->has('religion') || $errors->has('address')|| $errors->has('programme_of_study')||$errors->has('admission_number')|| $errors->has('index_number') || $errors->has('admission_date') || $errors->has('roll_number') || $errors->has('class') ||$errors->has('residence') ||$errors->has('house') || $errors->has('last_school_attended') ||!empty(session('error')))
       <script type="text/javascript">
           setTimeout(() => {
-          $('#newAdminModal').modal('show');
+          $('#newStudentModal').modal('show');
           }, 500);
       </script>
   @endif

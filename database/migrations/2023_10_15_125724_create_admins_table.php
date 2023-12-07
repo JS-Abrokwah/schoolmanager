@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('staff_id');
             $table->string('position');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('admins', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

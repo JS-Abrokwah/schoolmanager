@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\School;
 use App\Models\Subject;
 use App\Models\Classes;
 use App\Models\Student;
+use Auth;
 
 class Programme extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable=[
         'name',
@@ -39,4 +42,23 @@ class Programme extends Model
         return $this->hasMany(Student::class);
     }
 
+    public function school(){
+        return $this->belongsTo(School::class);
+    }
+
+    public static function programmeList(){
+        
+        $result = Programme::whereHas('school', function ($query){
+            $query->where('schools.id','=',Auth::user()->school->id);
+        })->paginate(10);
+        return $result;
+    }
+
+    public static function allProgrammes(){
+        $result = Programme::whereHas('school', function ($query){
+            $query->where('schools.id','=',Auth::user()->school->id);
+        })->get();
+
+        return $result;
+    }
 }

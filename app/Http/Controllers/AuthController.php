@@ -177,7 +177,7 @@ class AuthController extends Controller
             return view('auth.reset',['page_title'=>"Reset Password",'user'=>$user]);
         }else{
             $this->logout();
-            abort(404);
+            abort(401);
         }
     }
 

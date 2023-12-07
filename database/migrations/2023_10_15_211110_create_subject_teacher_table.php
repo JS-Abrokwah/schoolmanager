@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('subject_teacher', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_teacher');
+        Schema::dropIfExists('subject_teacher', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

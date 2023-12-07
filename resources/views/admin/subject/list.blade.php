@@ -64,7 +64,7 @@
                       @foreach ($subjectRecords as $subject)
                         <tr>
                           <td>{{ $subject->id }}</td>
-                          <td>{{ $subject->name }}</td>
+                          <td>{{ $subject->name }} ( <span class="text-info">{{ $subject->category }}</span> )</td>
                           <td>{{ $subject->type }}</td>
                           <td class="{{ ($subject->status == 1)?"text-success":"text-danger" }}">{{ ($subject->status == 1)?"Active":"Inactive" }}</td>
                           <td>{{ $subject->creator_first_name.' '.$subject->creator_last_name }}</td>
@@ -202,7 +202,7 @@
                       <div class="form-group row">
                         <label for="name" class="col-sm-3 col-form-label">Class Name</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="name" value="{{ session('subject')->name }}" placeholder="Class Name" required>
+                          <input type="text" class="form-control" name="name" readonly value="{{ session('subject')->name }}" placeholder="Class Name" required>
                         </div>
                       </div>
                       <input type="text" name="id" value="{{ session('subject')->id }}" hidden>

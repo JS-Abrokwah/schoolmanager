@@ -37,14 +37,10 @@
 
 <div class="row mt-3 mx-0">
   <div class="col-md-3"></div>
-  <div class="col-md-6 text-center bg-dark p-5 rounded">
-    <h1>Broken Link</h1>
+  <div class="col-md-6 text-center bg-info p-5 rounded">
+    <h1>Broken Link | 503</h1>
     <h5>Sorry, but service is temporally unavailable</h5>
-    <p class="font-italic h4 mt-3" style="text-decoration: underline">Possible issues</p>
-    <ul class="text-center mx-3"  style="list-style: none;">
-        <li>1. Your device may be offline</li>
-        <li>2. Server may be down for maintenance</li>
-    </ul>
+    <p class="font-italic mt-3">Server may be down for maintenance. Retry later...</p>
   </div>
   <div class="col-md-3"></div>
 

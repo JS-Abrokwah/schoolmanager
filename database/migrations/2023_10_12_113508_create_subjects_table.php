@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('category'); //core or elective
             $table->unsignedBigInteger('created_by');
             $table->boolean('status')->default(true);
-            $table->boolean('is_delete')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('subjects', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Classes;
 use App\Models\Teacher;
 use Request;
@@ -11,7 +12,7 @@ use Auth;
 
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable=[
         'name',
@@ -57,27 +58,21 @@ class Subject extends Model
 
     static public function subjectList(){
         $result = Subject::select('subjects.*','users.first_name as creator_first_name','users.last_name as creator_last_name')
-                            ->where('subjects.is_delete','=',false)
                             ->join('users','users.id','subjects.created_by');
 
                             if(!empty(Request::get('search'))){
                                 $result=$result->where('subjects.name','like','%'.Request::get('search').'%')
-                                                ->where('subjects.is_delete','=',false)
                                                 ->orWhere(function($query){
-                                                    $query->where('subjects.id','=',Request::get('search'))
-                                                    ->where('subjects.is_delete','=',false);
+                                                    $query->where('subjects.id','=',Request::get('search'));
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('subjects.type','like','%'.Request::get('search').'%')
-                                                    ->where('subjects.is_delete','=',false);
+                                                    $query->where('subjects.type','like','%'.Request::get('search').'%');
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('subjects.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null)
-                                                    ->where('subjects.is_delete','=',false);
+                                                    $query->where('subjects.status','=',(Request::get('search')=="Active"||Request::get("active"))?true:null);
                                                 })
                                                 ->orWhere(function($query){
-                                                    $query->where('subjects.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null)
-                                                    ->where('subjects.is_delete','=',false);
+                                                    $query->where('subjects.status','=',(Request::get('search')=="Inactive"||Request::get("inactive"))?false:null);
                                                 });
 
                             }
@@ -88,14 +83,14 @@ class Subject extends Model
     static public function subjectsNotForClass($id){
         $result = Subject::whereDoesntHave('classes', function ($query) use($id){
             $query->where('classes_subject.classes_id','=',$id);
-        })->where('subjects.is_delete',false)->get();
+        })->get();
         return $result;
     }
     
     static public function subjectsNotForTeacher($id){
         $result = Subject::whereDoesntHave('teachers', function ($query) use($id){
             $query->where('subject_teacher.teacher_id','=',$id);
-        })->where('subjects.is_delete',false)->get();
+        })->get();
         return $result;
     }
 }
